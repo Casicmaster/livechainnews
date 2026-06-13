@@ -1,0 +1,97 @@
+.wrap {
+  background: var(--bg1);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  height: 36px;
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  background: var(--neon);
+  color: #000;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0 14px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.trackWrap {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Fade edges */
+.trackWrap::before,
+.trackWrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  z-index: 1;
+  pointer-events: none;
+}
+.trackWrap::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg1), transparent);
+}
+.trackWrap::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg1), transparent);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: scroll 50s linear infinite;
+}
+.track:hover { animation-play-state: paused; }
+
+@keyframes scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 18px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  white-space: nowrap;
+  border-right: 1px solid var(--border);
+  height: 36px;
+  cursor: default;
+  transition: background var(--transition);
+}
+.item:hover { background: var(--bg2); }
+
+.sym   { color: var(--text-primary); font-weight: 700; }
+.price { color: var(--text-secondary); }
+.chg   { }
+.pos   { color: var(--neon); }
+.neg   { color: var(--red); }
+
+.coinSkeleton {
+  display: inline-block;
+  width: 80px;
+  height: 12px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 50%, var(--bg2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

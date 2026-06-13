@@ -1,0 +1,61 @@
+.body { padding: 18px; }
+
+.meterLabel {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+
+.meter {
+  position: relative;
+  height: 8px;
+  background: linear-gradient(to right, #ff4757, #ff9f43, #ffd32a, #00c45a, #00e676);
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.needle {
+  position: absolute;
+  top: -5px;
+  width: 18px;
+  height: 18px;
+  background: var(--text-primary);
+  border-radius: 50%;
+  border: 2px solid var(--bg0);
+  transform: translateX(-50%);
+  transition: left 0.6s ease;
+  box-shadow: 0 0 6px rgba(0,0,0,0.6);
+}
+
+.meterTicks {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.valueWrap {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.value {
+  font-family: var(--font-mono);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+  transition: color 0.4s;
+}
+
+.classification {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
