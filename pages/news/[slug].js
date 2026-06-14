@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import PriceTicker from '../../components/PriceTicker';
 import Footer from '../../components/Footer';
+import InlinePrice from '../../components/InlinePrice';
 import { supabase } from '../../lib/supabase';
 import { timeAgo } from '../../lib/utils';
 import styles from './article.module.css';
@@ -63,9 +64,15 @@ export default function Article({ article, related }) {
           {article.excerpt && <p className={styles.excerpt}>{article.excerpt}</p>}
 
           <div className={styles.body}>
-            {(article.body || '').split('\n').map((para, i) =>
-              para.trim() ? <p key={i}>{para}</p> : <br key={i} />
-            )}
+            {(article.body || '').split('\n').map((para, i) => {
+              const trimmed = para.trim();
+              if (!trimmed) return <br key={i} />;
+              const priceMatch = trimmed.match(/^\[PRICE:([A-Za-z0-9]+)\]$/);
+              if (priceMatch) {
+                return <InlinePrice key={i} symbol={priceMatch[1]} />;
+              }
+              return <p key={i}>{para}</p>;
+            })}
           </div>
         </article>
 
