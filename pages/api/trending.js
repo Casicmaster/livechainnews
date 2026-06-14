@@ -20,18 +20,16 @@ export default async function handler(req, res) {
       name: c.item.name,
       symbol: c.item.symbol.toUpperCase(),
       rank: c.item.market_cap_rank,
-      thumb: c.item.thumb,
+      thumb: c.item.large || c.item.thumb || null,
     }));
 
-    // Fetch prices for these trending coins
     const ids = coins.map((c) => c.id).join(',');
     let priceMap = {};
     try {
       const prRes = await fetch(
         `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`
       );
-      const prData = await prRes.json();
-      priceMap = prData;
+      priceMap = await prRes.json();
     } catch (_) {}
 
     const result = coins.map((c) => ({
@@ -41,7 +39,6 @@ export default async function handler(req, res) {
     }));
 
     cache = { data: result, ts: Date.now() };
-
     res.setHeader('Cache-Control', 's-maxage=120, stale-while-revalidate=240');
     return res.status(200).json(result);
   } catch (err) {

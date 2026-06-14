@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import Head from 'next/head';
 import useSWR from 'swr';
 import Navbar from '../components/Navbar';
@@ -6,6 +6,7 @@ import PriceTicker from '../components/PriceTicker';
 import TrendingWidget from '../components/TrendingWidget';
 import FearGreedWidget from '../components/FearGreedWidget';
 import { NewsFeatured, NewsCard } from '../components/NewsCard';
+import TokenLogo from '../components/TokenLogo';
 import Footer from '../components/Footer';
 import { fmtPrice, fmtPct, getTokenMeta, FALLBACK_NEWS } from '../lib/utils';
 import styles from './index.module.css';
@@ -28,7 +29,7 @@ export default function Home() {
   // Prices (for hero movers)
   const { data: prices } = useSWR('/api/prices', fetcher, { refreshInterval: 60000 });
 
-  // News — now from YOUR Supabase articles instead of RSS
+  // News â€” now from YOUR Supabase articles instead of RSS
   const { data: news } = useSWR(
     `/api/articles?filter=${activeFilter === 'all' ? 'all' : activeFilter}`,
     fetcher,
@@ -56,7 +57,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>LiveChainNews — Crypto News, Trending Tokens & Market Insights</title>
+        <title>LiveChainNews â€” Crypto News, Trending Tokens & Market Insights</title>
         <meta name="description" content="Real-time crypto news, trending tokens, and market analysis. Stay ahead with LiveChainNews." />
         <meta property="og:title" content="LiveChainNews" />
         <meta property="og:description" content="Real-time crypto intelligence for traders, investors, and builders." />
@@ -67,7 +68,7 @@ export default function Home() {
       <Navbar />
 
       <main>
-        {/* ── HERO ── */}
+        {/* â”€â”€ HERO â”€â”€ */}
         <section className={styles.hero}>
           <div className="container">
             <div className={styles.heroInner}>
@@ -80,7 +81,7 @@ export default function Home() {
                   The <em className={styles.heroEm}>signal</em> in<br />the crypto noise
                 </h1>
                 <p className={styles.heroSub}>
-                  Real-time news, trending tokens, and market insights — curated
+                  Real-time news, trending tokens, and market insights â€” curated
                   for traders, investors, and builders worldwide.
                 </p>
                 <div className={styles.heroStats}>
@@ -105,15 +106,13 @@ export default function Home() {
 
               {/* Top Movers card */}
               <div className={styles.moversCard}>
-                <div className={styles.moversTitle}>🔥 Top movers · 24h</div>
+                <div className={styles.moversTitle}>Top Movers - 24h</div>
                 {topMovers ? topMovers.map((coin) => {
                   const meta = getTokenMeta(coin.symbol);
                   const { text, cls } = fmtPct(coin.change24h);
                   return (
                     <div key={coin.id} className={styles.moverRow}>
-                      <div className={styles.moverIcon} style={{ background: meta.bg, color: meta.color }}>
-                        {meta.icon}
-                      </div>
+                      <TokenLogo symbol={coin.symbol} image={coin.image} size={32} />
                       <div>
                         <div className={styles.moverName}>{coin.symbol}</div>
                         <div className={styles.moverPrice}>{fmtPrice(coin.price)}</div>
@@ -139,7 +138,7 @@ export default function Home() {
         </section>
 
         <div className="container">
-          {/* ── CATEGORY FILTER ── */}
+          {/* â”€â”€ CATEGORY FILTER â”€â”€ */}
           <div className={styles.categories}>
             {CATEGORIES.map((c) => (
               <button
@@ -152,7 +151,7 @@ export default function Home() {
             ))}
           </div>
 
-          {/* ── MAIN GRID ── */}
+          {/* â”€â”€ MAIN GRID â”€â”€ */}
           <div className={styles.mainGrid}>
             {/* NEWS */}
             <div className={styles.newsSection}>
@@ -164,7 +163,7 @@ export default function Home() {
                     <span className="live-dot" />Live
                   </span>
                 </div>
-                <a href="/news" className="section-link">View all →</a>
+                <a href="/news" className="section-link">View all â†’</a>
               </div>
 
               <NewsFeatured article={newsItems[0]} index={0} />
@@ -188,9 +187,9 @@ export default function Home() {
                 </div>
                 <div className={styles.newsletter}>
                   <h3>Stay ahead of the market</h3>
-                  <p>Get the top 5 crypto stories every morning — no noise, just signal.</p>
+                  <p>Get the top 5 crypto stories every morning â€” no noise, just signal.</p>
                   <input type="email" placeholder="your@email.com" className={styles.newsletterInput} />
-                  <button className={styles.btnSubscribe}>Subscribe free →</button>
+                  <button className={styles.btnSubscribe}>Subscribe free â†’</button>
                   <div className={styles.newsletterNote}>No spam. Unsubscribe anytime.</div>
                 </div>
               </div>
@@ -199,7 +198,7 @@ export default function Home() {
               <div className={styles.promoteBanner}>
                 <h3>Launch your <span>project</span> here</h3>
                 <p>Reach thousands of crypto investors and traders on LiveChainNews.</p>
-                <a href="/advertise" className={styles.btnList}>🚀 Get Listed</a>
+                <a href="/advertise" className={styles.btnList}>Get Listed</a>
                 <div className={styles.promoteStats}>
                   <div className={styles.promoteStat}><strong>50K+</strong>readers/mo</div>
                   <div className={styles.promoteStat}><strong>12+</strong>countries</div>
@@ -215,3 +214,8 @@ export default function Home() {
     </>
   );
 }
+
+
+
+
+
