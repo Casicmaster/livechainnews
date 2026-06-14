@@ -1,0 +1,58 @@
+.pageTitle { font-size: 28px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 22px; }
+
+.cats { display: flex; gap: 6px; margin-bottom: 28px; flex-wrap: wrap; }
+.catBtn {
+  font-size: 12px; font-weight: 600;
+  padding: 6px 15px; border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent; color: var(--text-secondary);
+  cursor: pointer; transition: all 0.15s;
+}
+.catBtn:hover { border-color: var(--border-neon); color: var(--neon); }
+.catActive { border-color: var(--neon); color: var(--neon); background: var(--neon-glow); }
+
+.empty { font-size: 15px; color: var(--text-muted); padding: 40px 0; text-align: center; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.15s;
+  display: flex;
+  flex-direction: column;
+}
+.card:hover { border-color: var(--border-neon); transform: translateY(-2px); }
+
+.cardImg { height: 170px; background: var(--bg2); overflow: hidden; }
+.cardImg img { width: 100%; height: 100%; object-fit: cover; }
+.cardImgPlaceholder {
+  height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px; opacity: 0.3;
+  background: linear-gradient(135deg, #0d1f1a, #0a1a28);
+}
+
+.cardBody { padding: 16px 18px; flex: 1; display: flex; flex-direction: column; }
+.cardCat {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--neon); margin-bottom: 8px;
+}
+.cardTitle { font-size: 16px; font-weight: 700; line-height: 1.3; margin-bottom: 8px; }
+.card:hover .cardTitle { color: var(--neon); }
+.cardExcerpt {
+  font-size: 13px; color: var(--text-secondary); line-height: 1.5;
+  margin-bottom: 12px; flex: 1;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.cardMeta {
+  display: flex; gap: 7px; align-items: center;
+  font-size: 11px; color: var(--text-muted); font-family: var(--font-mono);
+}

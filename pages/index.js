@@ -28,15 +28,25 @@ export default function Home() {
   // Prices (for hero movers)
   const { data: prices } = useSWR('/api/prices', fetcher, { refreshInterval: 60000 });
 
-  // News
+  // News — now from YOUR Supabase articles instead of RSS
   const { data: news } = useSWR(
-    `/api/news?filter=${activeFilter}`,
+    `/api/articles?filter=${activeFilter === 'all' ? 'all' : activeFilter}`,
     fetcher,
-    { refreshInterval: 300000 }
+    { refreshInterval: 60000 }
   );
 
-  // Normalise news array
-  const newsItems = Array.isArray(news) && news.length > 0 ? news : FALLBACK_NEWS;
+  // Map Supabase articles to the shape NewsCard expects
+  const newsItems = Array.isArray(news) && news.length > 0
+    ? news.map((a) => ({
+        id: a.id,
+        title: a.title,
+        url: `/news/${a.slug}`,
+        source: a.author,
+        published_at: a.created_at,
+        currencies: [],
+        category: a.category,
+      }))
+    : FALLBACK_NEWS;
 
   // Top movers: sort by abs(change24h), take top 4
   const topMovers = prices && Array.isArray(prices)

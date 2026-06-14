@@ -55,9 +55,9 @@ livechainnews-nextjs/
 Create a `.env.local` file in the root:
 
 ```env
-# Optional: CryptoPanic free API key
-# Get one at https://cryptopanic.com/developers/api/
-CRYPTOPANIC_KEY=your_key_here
+# FREE CryptoCompare API key for news
+# Get one at https://min-api.cryptocompare.com
+CRYPTOCOMPARE_KEY=your_key_here
 
 # Optional: CoinGecko Pro key (for higher rate limits)
 # COINGECKO_KEY=your_key_here

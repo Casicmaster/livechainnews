@@ -5,16 +5,14 @@ import styles from './NewsCard.module.css';
 // ── FEATURED (big card at top) ──
 export function NewsFeatured({ article, index = 0 }) {
   if (!article) return <FeaturedSkeleton />;
-  const tag = guessTag(article.title, article.currencies);
+  const tag = article.category
+    ? { label: article.category, cls: 'tag-' + article.category.toLowerCase() }
+    : guessTag(article.title, article.currencies);
   const emoji = NEWS_EMOJIS[index % NEWS_EMOJIS.length];
+  const isInternal = (article.url || '').startsWith('/');
 
-  return (
-    <a
-      href={article.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={styles.featured}
-    >
+  const inner = (
+    <>
       <div className={styles.featuredImg}>
         <span className={styles.featuredEmoji}>{emoji}</span>
       </div>
@@ -27,6 +25,15 @@ export function NewsFeatured({ article, index = 0 }) {
           <span>{timeAgo(article.published_at)}</span>
         </div>
       </div>
+    </>
+  );
+
+  if (isInternal) {
+    return <Link href={article.url} className={styles.featured}>{inner}</Link>;
+  }
+  return (
+    <a href={article.url} target="_blank" rel="noopener noreferrer" className={styles.featured}>
+      {inner}
     </a>
   );
 }
@@ -34,17 +41,15 @@ export function NewsFeatured({ article, index = 0 }) {
 // ── LIST CARD ──
 export function NewsCard({ article, index }) {
   if (!article) return <CardSkeleton num={index + 2} />;
-  const tag = guessTag(article.title, article.currencies);
+  const tag = article.category
+    ? { label: article.category, cls: 'tag-' + article.category.toLowerCase() }
+    : guessTag(article.title, article.currencies);
   const emoji = NEWS_EMOJIS[(index + 4) % NEWS_EMOJIS.length];
   const num = String(index + 2).padStart(2, '0');
+  const isInternal = (article.url || '').startsWith('/');
 
-  return (
-    <a
-      href={article.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={styles.card}
-    >
+  const inner = (
+    <>
       <div className={styles.cardNum}>{num}</div>
       <div className={styles.cardBody}>
         <div className={styles.cardTitle}>{article.title}</div>
@@ -56,6 +61,15 @@ export function NewsCard({ article, index }) {
         </div>
       </div>
       <div className={styles.cardThumb}>{emoji}</div>
+    </>
+  );
+
+  if (isInternal) {
+    return <Link href={article.url} className={styles.card}>{inner}</Link>;
+  }
+  return (
+    <a href={article.url} target="_blank" rel="noopener noreferrer" className={styles.card}>
+      {inner}
     </a>
   );
 }
