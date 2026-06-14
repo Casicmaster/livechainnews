@@ -1,13 +1,11 @@
 // pages/api/news.js
-// Fetches crypto news from CryptoCompare (CoinDesk Data) News API.
-// Get a FREE API key at https://min-api.cryptocompare.com
-// Then set CRYPTOCOMPARE_KEY in your Vercel environment variables.
-// Works without a key too (lower rate limit), so the site never breaks.
+// Tries CryptoCompare first, falls back to CoinGecko news, then to static fallback.
 
-const KEY = process.env.CRYPTOCOMPARE_KEY || '';
+const CC_KEY = process.env.CRYPTOCOMPARE_KEY || '';
+const CG_KEY = process.env.COINGECKO_KEY || '';
 
 let cache = { data: null, ts: 0 };
-const CACHE_MS = 180_000; // 3 minutes
+const CACHE_MS = 180_000;
 
 export default async function handler(req, res) {
   const { filter = 'all' } = req.query;
@@ -16,37 +14,65 @@ export default async function handler(req, res) {
     return res.status(200).json(filterNews(cache.data, filter));
   }
 
+  let news = null;
+
   try {
     let url = 'https://min-api.cryptocompare.com/data/v2/news/?lang=EN';
-    if (KEY) url += `&api_key=${KEY}`;
+    if (CC_KEY) url += `&api_key=${CC_KEY}`;
+    const r = await fetch(url);
+    if (r.ok) {
+      const d = await r.json();
+      if (d.Data && d.Data.length) {
+        news = d.Data.slice(0, 20).map((n) => ({
+          id: n.id,
+          title: n.title,
+          url: n.url,
+          source: n.source_info?.name || n.source || 'CryptoCompare',
+          published_at: new Date(n.published_on * 1000).toISOString(),
+          imageurl: n.imageurl || null,
+          currencies: (n.categories || '').split('|').filter(Boolean).map((c) => ({ code: c })),
+        }));
+      }
+    }
+  } catch (e) {
+    console.error('[news] CryptoCompare failed:', e.message);
+  }
 
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`CryptoCompare ${response.status}`);
+  if (!news) {
+    try {
+      let url = 'https://api.coingecko.com/api/v3/news';
+      if (CG_KEY) url += `?x_cg_demo_api_key=${CG_KEY}`;
+      const r = await fetch(url, { headers: { accept: 'application/json' } });
+      if (r.ok) {
+        const d = await r.json();
+        const arr = d.data || [];
+        if (arr.length) {
+          news = arr.slice(0, 20).map((n, i) => ({
+            id: n.id || i,
+            title: n.title || n.description || 'Untitled',
+            url: n.url || '#',
+            source: n.news_site || n.author || 'CoinGecko',
+            published_at: n.updated_at
+              ? new Date(n.updated_at * 1000).toISOString()
+              : new Date().toISOString(),
+            imageurl: n.thumb_2x || null,
+            currencies: [],
+          }));
+        }
+      }
+    } catch (e) {
+      console.error('[news] CoinGecko failed:', e.message);
+    }
+  }
 
-    const data = await response.json();
-    const news = (data.Data || []).slice(0, 20).map((n) => ({
-      id: n.id,
-      title: n.title,
-      url: n.url,
-      source: n.source_info?.name || n.source || 'CryptoCompare',
-      published_at: new Date(n.published_on * 1000).toISOString(),
-      imageurl: n.imageurl || null,
-      body: n.body || '',
-      currencies: (n.categories || '')
-        .split('|')
-        .filter(Boolean)
-        .map((c) => ({ code: c })),
-    }));
-
+  if (news) {
     cache = { data: news, ts: Date.now() };
-
     res.setHeader('Cache-Control', 's-maxage=180, stale-while-revalidate=360');
     return res.status(200).json(filterNews(news, filter));
-  } catch (err) {
-    console.error('[/api/news]', err.message);
-    if (cache.data) return res.status(200).json(filterNews(cache.data, filter));
-    return res.status(502).json({ error: 'News unavailable' });
   }
+
+  if (cache.data) return res.status(200).json(filterNews(cache.data, filter));
+  return res.status(200).json([]);
 }
 
 function filterNews(news, filter) {
