@@ -71,43 +71,7 @@ export default function Home() {
       <Navbar />
 
       <main>
-        {/* â”€â”€ HERO â”€â”€ */}
-        <section className={styles.hero}>
-          <div className="container">
-            <div className={styles.heroInner}>
-              <div className={styles.heroText}>
-                <div className={styles.heroEyebrow}>
-                  Crypto decoded
-                </div>
-                <h1 className={styles.heroH1}>
-                  The <em className={styles.heroEm}>signal</em> in<br />the crypto noise
-                </h1>
-                <p className={styles.heroSub}>
-                  Real-time news, trending tokens, and market insights — curated
-                  for traders, investors, and builders worldwide.
-                </p>
-                <div className={styles.heroStats}>
-                  <div className={styles.heroStat}>
-                    <div className={styles.heroStatVal}>24/7</div>
-                    <div className={styles.heroStatLabel}>Market coverage</div>
-                  </div>
-                  <div className={styles.heroStat}>
-                    <div className={styles.heroStatVal}>100+</div>
-                    <div className={styles.heroStatLabel}>Tokens tracked</div>
-                  </div>
-                  <div className={styles.heroStat}>
-                    <div className={styles.heroStatVal}>Live</div>
-                    <div className={styles.heroStatLabel}>Prices &amp; data</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.heroMarket}><MarketOverview /></div>
-            </div>
-          </div>
-        </section>
-
-        <div className="container">
+        <div className="container" style={{ paddingTop: 28 }}>
           {/* â”€â”€ CATEGORY FILTER â”€â”€ */}
           <div className={styles.categories}>
             {CATEGORIES.map((c) => (
