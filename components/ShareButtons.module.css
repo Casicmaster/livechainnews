@@ -1,0 +1,53 @@
+.wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin: 32px 0 0;
+  flex-wrap: wrap;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.buttons { display: flex; gap: 8px; }
+
+.btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+.btn:hover {
+  border-color: var(--border-neon);
+  color: var(--neon);
+  background: var(--neon-glow);
+  transform: translateY(-2px);
+}
+.copied {
+  border-color: var(--neon) !important;
+  color: var(--neon) !important;
+  background: var(--neon-glow) !important;
+}
+
+.copiedText {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--neon);
+}

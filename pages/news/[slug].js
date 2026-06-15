@@ -5,6 +5,7 @@ import Navbar from '../../components/Navbar';
 import PriceTicker from '../../components/PriceTicker';
 import Footer from '../../components/Footer';
 import InlinePrice from '../../components/InlinePrice';
+import ShareButtons from '../../components/ShareButtons';
 import { supabase } from '../../lib/supabase';
 import { timeAgo } from '../../lib/utils';
 import styles from './article.module.css';
@@ -85,6 +86,8 @@ export default function Article({ article, related }) {
               return <p key={i}>{para}</p>;
             })}
           </div>
+
+          <ShareButtons title={article.title} slug={article.slug} />
         </article>
 
         {related && related.length > 0 && (
