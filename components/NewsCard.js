@@ -1,8 +1,8 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
 import { guessTag, timeAgo, sourceName, NEWS_EMOJIS } from '../lib/utils';
 import styles from './NewsCard.module.css';
 
-// â”€â”€ FEATURED (big card at top) â”€â”€
+// ── FEATURED (big card at top) ──
 export function NewsFeatured({ article, index = 0 }) {
   if (!article) return <FeaturedSkeleton />;
   const tag = article.category
@@ -14,14 +14,16 @@ export function NewsFeatured({ article, index = 0 }) {
   const inner = (
     <>
       <div className={styles.featuredImg}>
-        <span className={styles.featuredEmoji}>{emoji}</span>
+        {article.image
+          ? <img src={article.image} alt={article.title} className={styles.featuredImgReal} />
+          : <span className={styles.featuredEmoji}>{emoji}</span>}
       </div>
       <div className={styles.featuredBody}>
         <span className={`tag ${tag.cls}`}>{tag.label}</span>
         <h2 className={styles.featuredTitle}>{article.title}</h2>
         <div className={styles.meta}>
           <span>{sourceName(article.source)}</span>
-          <span className={styles.metaDot}>Â·</span>
+          <span className={styles.metaDot}>·</span>
           <span suppressHydrationWarning>{timeAgo(article.published_at)}</span>
         </div>
       </div>
@@ -38,7 +40,7 @@ export function NewsFeatured({ article, index = 0 }) {
   );
 }
 
-// â”€â”€ LIST CARD â”€â”€
+// ── LIST CARD ──
 export function NewsCard({ article, index }) {
   if (!article) return <CardSkeleton num={index + 2} />;
   const tag = article.category
@@ -56,11 +58,15 @@ export function NewsCard({ article, index }) {
         <div className={styles.cardMeta}>
           <span className={`tag ${tag.cls}`}>{tag.label}</span>
           <span>{sourceName(article.source)}</span>
-          <span className={styles.metaDot}>Â·</span>
+          <span className={styles.metaDot}>·</span>
           <span suppressHydrationWarning>{timeAgo(article.published_at)}</span>
         </div>
       </div>
-      <div className={styles.cardThumb}>{emoji}</div>
+      <div className={styles.cardThumb}>
+        {article.image
+          ? <img src={article.image} alt={article.title} className={styles.cardThumbImg} />
+          : <span>{emoji}</span>}
+      </div>
     </>
   );
 
@@ -74,7 +80,7 @@ export function NewsCard({ article, index }) {
   );
 }
 
-// â”€â”€ SKELETONS â”€â”€
+// ── SKELETONS ──
 function FeaturedSkeleton() {
   return (
     <div className={styles.featured} style={{ pointerEvents: 'none' }}>
@@ -100,4 +106,3 @@ function CardSkeleton({ num }) {
     </div>
   );
 }
-

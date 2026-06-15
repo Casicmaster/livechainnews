@@ -245,11 +245,26 @@
 /* ── RESPONSIVE ── */
 @media (max-width: 960px) {
   .mainGrid { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
+  .sidebar { display: flex; }
   .heroInner { flex-direction: column; }
   .moversCard { width: 100%; }
 }
 @media (max-width: 600px) {
   .hero { padding: 32px 0 28px; }
   .heroStats { gap: 20px; }
+}
+
+.newsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 600px) {
+  .newsGrid { grid-template-columns: 1fr; }
+}
+
+.mobileMarket { display: none; }
+@media (max-width: 960px) {
+  .heroMarket { display: none; }
+  .mobileMarket { display: block; }
 }

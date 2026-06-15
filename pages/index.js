@@ -44,6 +44,7 @@ export default function Home() {
         id: a.id,
         title: a.title,
         url: `/news/${a.slug}`,
+        image: a.image_url || null,
         source: a.author,
         published_at: a.created_at,
         currencies: [],
@@ -101,7 +102,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <MarketOverview />
+              <div className={styles.heroMarket}><MarketOverview /></div>
             </div>
           </div>
         </section>
@@ -134,7 +135,7 @@ export default function Home() {
 
               <NewsFeatured article={newsItems[0]} index={0} />
 
-              <div>
+              <div className={styles.newsGrid}>
                 {newsItems.slice(1, 9).map((article, i) => (
                   <NewsCard key={article?.id || i} article={article} index={i} />
                 ))}
@@ -143,6 +144,7 @@ export default function Home() {
 
             {/* SIDEBAR */}
             <aside className={styles.sidebar}>
+              <div className={styles.mobileMarket}><MarketOverview /></div>
               <TrendingWidget />
               <MostRead />
               <FearGreedWidget />
