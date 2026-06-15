@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
 import useSWR from 'swr';
 import Navbar from '../components/Navbar';
@@ -7,6 +7,8 @@ import TrendingWidget from '../components/TrendingWidget';
 import FearGreedWidget from '../components/FearGreedWidget';
 import { NewsFeatured, NewsCard } from '../components/NewsCard';
 import TokenLogo from '../components/TokenLogo';
+import MostRead from '../components/MostRead';
+import MarketOverview from '../components/MarketOverview';
 import Footer from '../components/Footer';
 import { fmtPrice, fmtPct, getTokenMeta, FALLBACK_NEWS } from '../lib/utils';
 import styles from './index.module.css';
@@ -74,65 +76,32 @@ export default function Home() {
             <div className={styles.heroInner}>
               <div className={styles.heroText}>
                 <div className={styles.heroEyebrow}>
-                  <span className={styles.eyebrowDot} />
-                  Live crypto intelligence
+                  Crypto decoded
                 </div>
                 <h1 className={styles.heroH1}>
                   The <em className={styles.heroEm}>signal</em> in<br />the crypto noise
                 </h1>
                 <p className={styles.heroSub}>
-                  Real-time news, trending tokens, and market insights â€” curated
+                  Real-time news, trending tokens, and market insights — curated
                   for traders, investors, and builders worldwide.
                 </p>
                 <div className={styles.heroStats}>
                   <div className={styles.heroStat}>
-                    <div className={styles.heroStatVal}>1,200+</div>
-                    <div className={styles.heroStatLabel}>News articles</div>
+                    <div className={styles.heroStatVal}>24/7</div>
+                    <div className={styles.heroStatLabel}>Market coverage</div>
                   </div>
                   <div className={styles.heroStat}>
-                    <div className={styles.heroStatVal}>300+</div>
+                    <div className={styles.heroStatVal}>100+</div>
                     <div className={styles.heroStatLabel}>Tokens tracked</div>
                   </div>
                   <div className={styles.heroStat}>
-                    <div className={styles.heroStatVal}>
-                      <span className="live-badge">
-                        <span className="live-dot" />Live
-                      </span>
-                    </div>
-                    <div className={styles.heroStatLabel}>Market data</div>
+                    <div className={styles.heroStatVal}>Live</div>
+                    <div className={styles.heroStatLabel}>Prices &amp; data</div>
                   </div>
                 </div>
               </div>
 
-              {/* Top Movers card */}
-              <div className={styles.moversCard}>
-                <div className={styles.moversTitle}>Top Movers - 24h</div>
-                {topMovers ? topMovers.map((coin) => {
-                  const meta = getTokenMeta(coin.symbol);
-                  const { text, cls } = fmtPct(coin.change24h);
-                  return (
-                    <div key={coin.id} className={styles.moverRow}>
-                      <TokenLogo symbol={coin.symbol} image={coin.image} size={32} />
-                      <div>
-                        <div className={styles.moverName}>{coin.symbol}</div>
-                        <div className={styles.moverPrice}>{fmtPrice(coin.price)}</div>
-                      </div>
-                      <div className={`${styles.moverChg} ${cls === 'pos' ? styles.pos : styles.neg}`}>
-                        {text}
-                      </div>
-                    </div>
-                  );
-                }) : Array(4).fill(null).map((_, i) => (
-                  <div key={i} className={styles.moverRow}>
-                    <div className={`skeleton ${styles.moverIconSk}`} />
-                    <div style={{ flex: 1 }}>
-                      <div className={`skeleton ${styles.skName}`} />
-                      <div className={`skeleton ${styles.skPrice}`} />
-                    </div>
-                    <div className={`skeleton ${styles.skChg}`} />
-                  </div>
-                ))}
-              </div>
+              <MarketOverview />
             </div>
           </div>
         </section>
@@ -159,11 +128,8 @@ export default function Home() {
                 <div className="section-title">
                   <div className="section-title-dot" />
                   Latest News
-                  <span className="live-badge" style={{ marginLeft: 8 }}>
-                    <span className="live-dot" />Live
-                  </span>
-                </div>
-                <a href="/news" className="section-link">View all â†’</a>
+                  </div>
+                <a href="/news" className="section-link">View all →</a>
               </div>
 
               <NewsFeatured article={newsItems[0]} index={0} />
@@ -178,6 +144,7 @@ export default function Home() {
             {/* SIDEBAR */}
             <aside className={styles.sidebar}>
               <TrendingWidget />
+              <MostRead />
               <FearGreedWidget />
 
               {/* Newsletter */}

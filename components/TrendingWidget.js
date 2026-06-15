@@ -1,4 +1,4 @@
-﻿import useSWR from "swr";
+import useSWR from "swr";
 import { fmtPrice, fmtPct } from "../lib/utils";
 import TokenLogo from "./TokenLogo";
 import styles from "./TrendingWidget.module.css";
@@ -59,10 +59,7 @@ export default function TrendingWidget() {
 
       <div className={styles.footer}>
         <span>Data: CoinGecko</span>
-        <span className="live-badge">
-          <span className="live-dot" />
-          Live
-        </span>
+        <span style={{ fontSize: 11, color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>Auto-refresh</span>
       </div>
     </div>
   );

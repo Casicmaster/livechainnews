@@ -1,0 +1,100 @@
+.card {
+  flex-shrink: 0;
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  width: 290px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.bigStat {
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 14px;
+}
+.bigLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.bigValue {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+}
+.bigChange {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 6px;
+}
+.period { color: var(--text-muted); font-weight: 400; font-size: 11px; }
+.pos { color: var(--neon); }
+.neg { color: var(--red); }
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 12px;
+  margin-bottom: 16px;
+}
+.statLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+.statValue {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.domBar {
+  position: relative;
+  height: 22px;
+  background: var(--bg3);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.domFill {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  background: linear-gradient(90deg, #f7931a, #f7b733);
+  transition: width 0.5s ease;
+}
+.domLabel {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 0 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: #000;
+}
+.domOther { color: var(--text-secondary); }
+
+.skBig { display: inline-block; width: 160px; height: 26px; border-radius: 4px; }
+.skSmall { display: inline-block; width: 60px; height: 15px; border-radius: 3px; }
+
+@media (max-width: 960px) {
+  .card { width: 100%; }
+}

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
@@ -9,6 +10,16 @@ import { timeAgo } from '../../lib/utils';
 import styles from './article.module.css';
 
 export default function Article({ article, related }) {
+  useEffect(() => {
+    if (article?.slug) {
+      fetch('/api/view', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug: article.slug }),
+      }).catch(() => {});
+    }
+  }, [article?.slug]);
+
   if (!article) {
     return (
       <>
@@ -28,7 +39,7 @@ export default function Article({ article, related }) {
   return (
     <>
       <Head>
-        <title>{article.title} — LiveChainNews</title>
+        <title>{`${article.title} — LiveChainNews`}</title>
         <meta name="description" content={article.excerpt || article.title} />
         <meta property="og:title" content={article.title} />
         <meta property="og:description" content={article.excerpt || ''} />

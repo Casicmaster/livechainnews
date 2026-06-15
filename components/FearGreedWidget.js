@@ -21,7 +21,7 @@ export default function FearGreedWidget() {
     <div className="widget">
       <div className="widget-header">
         <div className="widget-title"><span>🧠</span> Fear &amp; Greed Index</div>
-        <span className="live-badge"><span className="live-dot" />Live</span>
+        
       </div>
       <div className={styles.body}>
         <div className={styles.meterLabel}>Market sentiment — 24h</div>
