@@ -84,3 +84,11 @@
   .title { font-size: 23px; }
   .search { width: 100%; }
 }
+@media (max-width: 600px) {
+  .tableWrap { margin: 0 -16px; border-radius: 0; overflow-x: hidden; }
+  .table { width: 100%; table-layout: fixed; }
+  .table tbody td, .table thead th { padding: 12px 6px; font-size: 13px; white-space: normal; }
+  .coinMain { font-size: 13px; }
+  .coinSym { display: none; }
+  .spark, .sparkEmpty { display: none; }
+}
