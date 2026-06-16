@@ -60,11 +60,19 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>LiveChainNews â€” Crypto News, Trending Tokens & Market Insights</title>
+        <title>LiveChainNews — Crypto News, Trending Tokens & Market Insights</title>
         <meta name="description" content="Real-time crypto news, trending tokens, and market analysis. Stay ahead with LiveChainNews." />
-        <meta property="og:title" content="LiveChainNews" />
-        <meta property="og:description" content="Real-time crypto intelligence for traders, investors, and builders." />
+        <link rel="canonical" href="https://livechainnews.com" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://livechainnews.com" />
+        <meta property="og:title" content="LiveChainNews — Crypto News & Market Insights" />
+        <meta property="og:description" content="Real-time crypto news, trending tokens, and market analysis." />
+        <meta property="og:image" content="https://livechainnews.com/og-image.png" />
+        <meta property="og:site_name" content="LiveChainNews" />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="LiveChainNews" />
+        <meta name="twitter:description" content="Real-time crypto news, trending tokens, and market analysis." />
+        <meta name="twitter:image" content="https://livechainnews.com/og-image.png" />
       </Head>
 
       <PriceTicker />

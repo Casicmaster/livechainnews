@@ -49,6 +49,27 @@ export default function Article({ article, related }) {
         {article.image_url && <meta property="og:image" content={article.image_url} />}
         <meta name="twitter:card" content="summary_large_image" />
         <link rel="canonical" href={url} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'NewsArticle',
+              headline: article.title,
+              description: article.excerpt || '',
+              image: article.image_url ? [article.image_url] : undefined,
+              datePublished: article.created_at,
+              dateModified: article.created_at,
+              author: { '@type': 'Organization', name: article.author || 'LiveChainNews' },
+              publisher: {
+                '@type': 'Organization',
+                name: 'LiveChainNews',
+                url: 'https://livechainnews.com',
+              },
+              mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+            }),
+          }}
+        />
       </Head>
 
       <PriceTicker />
