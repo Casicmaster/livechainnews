@@ -63,6 +63,7 @@ export default function Home() {
         <title>LiveChainNews — Crypto News, Trending Tokens & Market Insights</title>
         <meta name="description" content="Real-time crypto news, trending tokens, and market analysis. Stay ahead with LiveChainNews." />
         <link rel="canonical" href="https://livechainnews.com" />
+        <meta name="google-site-verification" content="gfO16MPYLJx2hmsuiAig1yhUqh5Ih9cZjhaYYoIAWkw" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://livechainnews.com" />
         <meta property="og:title" content="LiveChainNews — Crypto News & Market Insights" />
