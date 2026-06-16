@@ -8,6 +8,7 @@ import FearGreedWidget from '../components/FearGreedWidget';
 import { NewsFeatured, NewsCard } from '../components/NewsCard';
 import TokenLogo from '../components/TokenLogo';
 import MostRead from '../components/MostRead';
+import Newsletter from '../components/Newsletter';
 import MarketOverview from '../components/MarketOverview';
 import Footer from '../components/Footer';
 import { fmtPrice, fmtPct, getTokenMeta, FALLBACK_NEWS } from '../lib/utils';
@@ -123,18 +124,7 @@ export default function Home() {
               <FearGreedWidget />
 
               {/* Newsletter */}
-              <div className="widget">
-                <div className="widget-header">
-                  <div className="widget-title"><span>📧</span> Daily Digest</div>
-                </div>
-                <div className={styles.newsletter}>
-                  <h3>Stay ahead of the market</h3>
-                  <p>Get the top 5 crypto stories every morning â€” no noise, just signal.</p>
-                  <input type="email" placeholder="your@email.com" className={styles.newsletterInput} />
-                  <button className={styles.btnSubscribe}>Subscribe free â†’</button>
-                  <div className={styles.newsletterNote}>No spam. Unsubscribe anytime.</div>
-                </div>
-              </div>
+              <Newsletter />
 
               {/* Promote */}
               <div className={styles.promoteBanner}>
