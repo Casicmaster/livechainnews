@@ -26,7 +26,7 @@ export default function Navbar() {
       {/* Desktop nav */}
       <ul className={styles.navLinks}>
         {[
-          { href: '/',          label: 'News' },
+          { href: '/news',      label: 'News' },
           { href: '/analysis',  label: 'Analysis' },
           { href: '/prices',    label: 'Prices' },
           { href: '/trending',  label: 'Trending' },
@@ -71,7 +71,7 @@ export default function Navbar() {
       {menuOpen && (
         <div className={styles.mobileMenu}>
           {[
-            { href: '/',         label: 'News' },
+            { href: '/news',     label: 'News' },
             { href: '/analysis', label: 'Analysis' },
             { href: '/prices',   label: 'Prices' },
             { href: '/trending', label: 'Trending' },
