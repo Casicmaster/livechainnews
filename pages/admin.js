@@ -38,6 +38,33 @@ export default function Admin() {
     if (res.ok) setArticles(await res.json());
   }
 
+
+  async function uploadImage(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setMsg('Uploading image...');
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        const res = await fetch('/api/admin/upload', {
+          method: 'POST',
+          headers: headers(),
+          body: JSON.stringify({ fileName: file.name, fileData: reader.result }),
+        });
+        const data = await res.json();
+        if (res.ok && data.url) {
+          setForm((prev) => ({ ...prev, image_url: data.url }));
+          setMsg('Image uploaded!');
+        } else {
+          setMsg('Upload failed: ' + (data.error || 'unknown'));
+        }
+      } catch (err) {
+        setMsg('Upload error: ' + err.message);
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
   async function save() {
     if (!form.title) { setMsg('Title is required.'); return; }
     setSaving(true);
@@ -134,6 +161,13 @@ export default function Admin() {
             <input className={styles.input} value={form.image_url}
               onChange={(e) => setForm({ ...form, image_url: e.target.value })}
               placeholder="https://..." />
+            <label style={{ display: 'inline-block', marginTop: 8, padding: '8px 14px', background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 6, fontSize: 13, cursor: 'pointer', color: 'var(--text-secondary)' }}>
+              📤 Upload image from computer
+              <input type="file" accept="image/*" onChange={uploadImage} style={{ display: 'none' }} />
+            </label>
+            {form.image_url && (
+              <img src={form.image_url} alt="preview" style={{ display: 'block', marginTop: 10, maxWidth: '100%', maxHeight: 160, borderRadius: 8, border: '1px solid var(--border)' }} />
+            )}
 
             <div className={styles.row}>
               <div style={{ flex: 1 }}>
