@@ -39,9 +39,10 @@ export default function Home() {
     { refreshInterval: 60000 }
   );
 
-  // Map Supabase articles to the shape NewsCard expects
-  const newsItems = Array.isArray(news) && news.length > 0
-    ? news.map((a) => ({
+  // null = loading, [] = no results
+  const newsItems = !news
+    ? FALLBACK_NEWS
+    : news.map((a) => ({
         id: a.id,
         title: a.title,
         url: `/news/${a.slug}`,
@@ -50,8 +51,7 @@ export default function Home() {
         published_at: a.created_at,
         currencies: [],
         category: a.category,
-      }))
-    : FALLBACK_NEWS;
+      }));
 
   // Top movers: sort by abs(change24h), take top 4
   const topMovers = prices && Array.isArray(prices)
@@ -107,13 +107,20 @@ export default function Home() {
                 <a href="/news" className="section-link">View all →</a>
               </div>
 
-              <NewsFeatured article={newsItems[0]} index={0} />
-
-              <div className={styles.newsGrid}>
-                {newsItems.slice(1, 9).map((article, i) => (
-                  <NewsCard key={article?.id || i} article={article} index={i} />
-                ))}
-              </div>
+              {newsItems.length === 0 ? (
+                <div style={{ padding: '40px 0', textAlign: 'center', color: '#888' }}>
+                  No articles in this category yet.
+                </div>
+              ) : (
+                <>
+                  <NewsFeatured article={newsItems[0]} index={0} />
+                  <div className={styles.newsGrid}>
+                    {newsItems.slice(1, 9).map((article, i) => (
+                      <NewsCard key={article?.id || i} article={article} index={i} />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
             {/* SIDEBAR */}
