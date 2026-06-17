@@ -15,7 +15,7 @@ export default async function handler(req, res) {
       '?vs_currency=usd&order=market_cap_desc&per_page=100&page=1' +
       '&sparkline=true&price_change_percentage=1h,24h,7d';
 
-    const r = await fetch(url, { headers: { accept: 'application/json' } });
+    const r = await fetch(url, { headers: { accept: 'application/json', 'x-cg-demo-api-key': process.env.COINGECKO_API_KEY || '' } });
     if (!r.ok) throw new Error(`CoinGecko markets ${r.status}`);
     const raw = await r.json();
 

@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
   try {
     const r = await fetch('https://api.coingecko.com/api/v3/global', {
-      headers: { accept: 'application/json' },
+      headers: { accept: 'application/json', 'x-cg-demo-api-key': process.env.COINGECKO_API_KEY || '' },
     });
     if (!r.ok) throw new Error(`CoinGecko global ${r.status}`);
     const json = await r.json();

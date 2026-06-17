@@ -10,7 +10,8 @@ export default async function handler(req, res) {
 
   try {
     const trendRes = await fetch(
-      'https://api.coingecko.com/api/v3/search/trending'
+      'https://api.coingecko.com/api/v3/search/trending',
+      { headers: { 'x-cg-demo-api-key': process.env.COINGECKO_API_KEY || '' } }
     );
     if (!trendRes.ok) throw new Error(`CoinGecko trending ${trendRes.status}`);
     const trendData = await trendRes.json();
@@ -27,7 +28,8 @@ export default async function handler(req, res) {
     let priceMap = {};
     try {
       const prRes = await fetch(
-        `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`
+        `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`,
+        { headers: { 'x-cg-demo-api-key': process.env.COINGECKO_API_KEY || '' } }
       );
       priceMap = await prRes.json();
     } catch (_) {}

@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       `?vs_currency=usd&ids=${COIN_IDS}&order=market_cap_desc` +
       `&per_page=50&page=1&price_change_percentage=24h`;
 
-    const response = await fetch(url, { headers: { Accept: 'application/json' } });
+    const response = await fetch(url, { headers: { Accept: 'application/json', 'x-cg-demo-api-key': process.env.COINGECKO_API_KEY || '' } });
     if (!response.ok) throw new Error(`CoinGecko ${response.status}`);
 
     const raw = await response.json();
