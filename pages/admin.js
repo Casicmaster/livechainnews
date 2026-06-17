@@ -131,7 +131,11 @@ export default function Admin() {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password, id }),
-      async function loadListings() {
+    });
+    if (res.ok) loadListings();
+  }
+
+  async function loadListings() {
     const res = await fetch('/api/listings');
     if (res.ok) setListings(await res.json());
   }
@@ -156,6 +160,13 @@ export default function Admin() {
     });
     if (res.ok) loadListings();
   }
+
+  async function deleteTweet(id) {
+    if (!confirm('Delete this tweet?')) return;
+    const res = await fetch('/api/tweets', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password, id }),
     });
     if (res.ok) loadTweets();
   }
