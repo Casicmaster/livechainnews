@@ -10,11 +10,11 @@ import styles from './news.module.css';
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
-const CATEGORIES = ['all', 'News', 'Analysis', 'Bitcoin', 'Ethereum', 'DeFi', 'NFT', 'Regulation', 'Altcoin'];
+const CATEGORIES = ['all', 'Bitcoin', 'Ethereum', 'DeFi', 'NFT', 'Regulation', 'Altcoin'];
 
 export default function NewsList() {
   const [filter, setFilter] = useState('all');
-  const { data: articles } = useSWR(`/api/articles?filter=${filter}`, fetcher);
+  const { data: articles } = useSWR(`/api/articles?filter=${filter === 'all' ? 'News' : filter}`, fetcher);
   const list = Array.isArray(articles) ? articles : [];
 
   return (
