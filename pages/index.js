@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
 import Head from 'next/head';
 import useSWR from 'swr';
 import Navbar from '../components/Navbar';
@@ -26,23 +27,19 @@ const CATEGORIES = [
   { key: 'altcoin',    label: 'Altcoins' },
 ];
 
-export default function Home() {
+export default function Home({ initialArticles = [] }) {
   const [activeFilter, setActiveFilter] = useState('all');
-
   // Prices (for hero movers)
   const { data: prices } = useSWR('/api/prices', fetcher, { refreshInterval: 60000 });
-
-  // News â€” now from YOUR Supabase articles instead of RSS
+  // SWR only when filter changes, seed with ISR data for 'all'
   const { data: news } = useSWR(
-    `/api/articles?filter=${activeFilter === 'all' ? 'all' : activeFilter}`,
+    activeFilter !== 'all' ? `/api/articles?filter=${activeFilter}` : null,
     fetcher,
     { refreshInterval: 60000 }
   );
-
-  // null = loading, [] = no results
-  const newsItems = !news
-    ? FALLBACK_NEWS
-    : news.map((a) => ({
+  const rawArticles = activeFilter === 'all' ? initialArticles : (news || []);
+  const newsItems = rawArticles.length > 0
+    ? rawArticles.map((a) => ({
         id: a.id,
         title: a.title,
         url: `/news/${a.slug}`,
@@ -51,8 +48,8 @@ export default function Home() {
         published_at: a.created_at,
         currencies: [],
         category: a.category,
-      }));
-
+      }))
+    : FALLBACK_NEWS;
   // Top movers: sort by abs(change24h), take top 4
   const topMovers = prices && Array.isArray(prices)
     ? [...prices].sort((a, b) => Math.abs(b.change24h) - Math.abs(a.change24h)).slice(0, 4)
@@ -152,6 +149,24 @@ export default function Home() {
       <Footer />
     </>
   );
+}
+export async function getStaticProps() {
+  const { createClient } = require('@supabase/supabase-js');
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  );
+  const { data } = await supabase
+    .from('articles')
+    .select('*')
+    .eq('published', true)
+    .order('created_at', { ascending: false })
+    .limit(30);
+
+  return {
+    props: { initialArticles: data || [] },
+    revalidate: 60,
+  };
 }
 
 
