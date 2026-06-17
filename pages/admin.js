@@ -8,7 +8,7 @@ const EMPTY = {
   published: true, featured: false,
 };
 
-const CATEGORIES = ['News', 'Analysis', 'Bitcoin', 'Ethereum', 'DeFi', 'NFT', 'Regulation', 'Altcoin'];
+const CATEGORIES = ['News', 'Analysis', 'Bitcoin', 'Ethereum', 'DeFi', 'NFT', 'Regulation', 'Altcoin', 'Learn', 'Blog'];
 
 export default function Admin() {
   const [password, setPassword] = useState('');
@@ -17,6 +17,9 @@ export default function Admin() {
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState('');
+  const [tweets, setTweets] = useState([]);
+  const [tweetUrl, setTweetUrl] = useState('');
+  const [tweetNote, setTweetNote] = useState('');
 
   const headers = () => ({
     'Content-Type': 'application/json',
@@ -28,6 +31,7 @@ export default function Admin() {
     if (res.ok) {
       setAuthed(true);
       setArticles(await res.json());
+      loadTweets();
     } else {
       setMsg('Wrong password.');
     }
@@ -102,6 +106,31 @@ export default function Admin() {
     if (res.ok) loadArticles();
   }
 
+  async function loadTweets() {
+    const res = await fetch('/api/tweets');
+    if (res.ok) setTweets(await res.json());
+  }
+
+  async function addTweet() {
+    if (!tweetUrl) { setMsg('Tweet URL is required.'); return; }
+    const res = await fetch('/api/tweets', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password, url: tweetUrl, note: tweetNote }),
+    });
+    if (res.ok) { setTweetUrl(''); setTweetNote(''); loadTweets(); setMsg('Tweet added!'); }
+    else setMsg('Error adding tweet.');
+  }
+
+  async function deleteTweet(id) {
+    if (!confirm('Delete this tweet?')) return;
+    const res = await fetch('/api/tweets', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password, id }),
+    });
+    if (res.ok) loadTweets();
+  }
   // ── LOGIN SCREEN ──
   if (!authed) {
     return (
@@ -243,6 +272,39 @@ export default function Admin() {
               </div>
             ))}
           </div>
+
+          {/* TWEETS SECTION */}
+          <div className={styles.list} style={{ marginTop: 32 }}>
+            <h2 className={styles.sectionTitle}>Analysis Tweets ({tweets.length})</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+              <input
+                className={styles.input}
+                placeholder="Tweet URL (https://x.com/user/status/...)"
+                value={tweetUrl}
+                onChange={(e) => setTweetUrl(e.target.value)}
+              />
+              <input
+                className={styles.input}
+                placeholder="Note (optional — ex: Bullish BTC setup)"
+                value={tweetNote}
+                onChange={(e) => setTweetNote(e.target.value)}
+              />
+              <button className={styles.btnPrimary} onClick={addTweet}>Add Tweet</button>
+            </div>
+            {tweets.length === 0 && <p className={styles.empty}>No tweets added yet.</p>}
+            {tweets.map((t) => (
+              <div key={t.id} className={styles.listItem}>
+                <div className={styles.listInfo}>
+                  <div className={styles.listTitle} style={{ fontSize: 13 }}>{t.url}</div>
+                  {t.note && <div className={styles.listMeta} style={{ color: '#00e676' }}>{t.note}</div>}
+                </div>
+                <div className={styles.listActions}>
+                  <button className={styles.btnSmallDanger} onClick={() => deleteTweet(t.id)}>Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
+
         </div>
       </div>
     </>
