@@ -124,3 +124,28 @@ export default function Advertise() {
         </div>
 
         {/*
+        {/* Contact */}
+        <div style={{ background: '#111', border: '1px solid #222', borderRadius: 16, padding: 40, textAlign: 'center', maxWidth: 600, margin: '0 auto' }}>
+          <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 12 }}>Have questions?</h2>
+          <p style={{ color: '#888', fontSize: 15, marginBottom: 24, lineHeight: 1.7 }}>
+            Not sure which package is right for you? Contact us and we will find the best solution for your project and budget.
+          </p>
+          <a href="mailto:advertise@livechainnews.com" style={{
+            display: 'inline-block',
+            padding: '12px 32px',
+            background: '#00e676',
+            color: '#000',
+            borderRadius: 8,
+            fontWeight: 700,
+            fontSize: 15,
+            textDecoration: 'none',
+          }}>
+            advertise@livechainnews.com
+          </a>
+        </div>
+
+      </main>
+      <Footer />
+    </>
+  );
+}
