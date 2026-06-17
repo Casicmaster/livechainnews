@@ -20,6 +20,8 @@ export default function Admin() {
   const [tweets, setTweets] = useState([]);
   const [tweetUrl, setTweetUrl] = useState('');
   const [tweetNote, setTweetNote] = useState('');
+  const [listings, setListings] = useState([]);
+  const [listingForm, setListingForm] = useState({ name: '', website: '', logo_url: '', description: '', category: 'DeFi', package: 'Basic', featured: false });
 
   const headers = () => ({
     'Content-Type': 'application/json',
@@ -32,6 +34,7 @@ export default function Admin() {
       setAuthed(true);
       setArticles(await res.json());
       loadTweets();
+      loadListings();
     } else {
       setMsg('Wrong password.');
     }
@@ -128,6 +131,31 @@ export default function Admin() {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password, id }),
+      async function loadListings() {
+    const res = await fetch('/api/listings');
+    if (res.ok) setListings(await res.json());
+  }
+
+  async function saveListing() {
+    if (!listingForm.name || !listingForm.website) { setMsg('Name and website are required.'); return; }
+    const res = await fetch('/api/listings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password, ...listingForm }),
+    });
+    if (res.ok) { setListingForm({ name: '', website: '', logo_url: '', description: '', category: 'DeFi', package: 'Basic', featured: false }); loadListings(); setMsg('Project listed!'); }
+    else setMsg('Error adding listing.');
+  }
+
+  async function deleteListing(id) {
+    if (!confirm('Delete this listing?')) return;
+    const res = await fetch('/api/listings', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password, id }),
+    });
+    if (res.ok) loadListings();
+  }
     });
     if (res.ok) loadTweets();
   }
@@ -300,6 +328,44 @@ export default function Admin() {
                 </div>
                 <div className={styles.listActions}>
                   <button className={styles.btnSmallDanger} onClick={() => deleteTweet(t.id)}>Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+   {/* LISTINGS SECTION */}
+          <div className={styles.list} style={{ marginTop: 32 }}>
+            <h2 className={styles.sectionTitle}>Project Listings ({listings.length})</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+              <input className={styles.input} placeholder="Project name" value={listingForm.name} onChange={(e) => setListingForm({ ...listingForm, name: e.target.value })} />
+              <input className={styles.input} placeholder="Website (https://...)" value={listingForm.website} onChange={(e) => setListingForm({ ...listingForm, website: e.target.value })} />
+              <input className={styles.input} placeholder="Logo URL (https://...)" value={listingForm.logo_url} onChange={(e) => setListingForm({ ...listingForm, logo_url: e.target.value })} />
+              <textarea className={styles.textarea} rows={2} placeholder="Short description" value={listingForm.description} onChange={(e) => setListingForm({ ...listingForm, description: e.target.value })} />
+              <select className={styles.input} value={listingForm.category} onChange={(e) => setListingForm({ ...listingForm, category: e.target.value })}>
+                {['DeFi','NFT','Exchange','Gaming','Infrastructure','DAO','Other'].map((c) => <option key={c}>{c}</option>)}
+              </select>
+              <select className={styles.input} value={listingForm.package} onChange={(e) => setListingForm({ ...listingForm, package: e.target.value })}>
+                {['Basic','Pro','Premium'].map((p) => <option key={p}>{p}</option>)}
+              </select>
+              <label className={styles.check}>
+                <input type="checkbox" checked={listingForm.featured} onChange={(e) => setListingForm({ ...listingForm, featured: e.target.checked })} />
+                Featured project
+              </label>
+              <button className={styles.btnPrimary} onClick={saveListing}>Add Listing</button>
+            </div>
+            {listings.length === 0 && <p className={styles.empty}>No listings yet.</p>}
+            {listings.map((l) => (
+              <div key={l.id} className={styles.listItem}>
+                <div className={styles.listInfo}>
+                  <div className={styles.listTitle}>{l.name}</div>
+                  <div className={styles.listMeta}>
+                    <span className={styles.cat}>{l.category}</span>
+                    <span className={styles.cat}>{l.package}</span>
+                    {l.featured && <span className={styles.feat}>★ Featured</span>}
+                  </div>
+                </div>
+                <div className={styles.listActions}>
+                  <button className={styles.btnSmallDanger} onClick={() => deleteListing(l.id)}>Delete</button>
                 </div>
               </div>
             ))}
