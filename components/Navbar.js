@@ -29,7 +29,7 @@ export default function Navbar() {
           { href: '/news',      label: 'News' },
           { href: '/analysis',  label: 'Analysis' },
           { href: '/prices',    label: 'Prices' },
-          { href: '/trending',  label: 'Trending' },
+          { href: '/trending',  label: 'Top Exchanges' },
           { href: '/learn',     label: 'Learn' },
           { href: '/blog',      label: 'Blog' },
         ].map((l) => (
@@ -74,7 +74,7 @@ export default function Navbar() {
             { href: '/news',     label: 'News' },
             { href: '/analysis', label: 'Analysis' },
             { href: '/prices',   label: 'Prices' },
-            { href: '/trending', label: 'Trending' },
+            { href: '/trending',  label: 'Top Exchanges' },
             { href: '/learn',    label: 'Learn' },
             { href: '/blog',     label: 'Blog' },
             { href: '/advertise',label: '🚀 List Project' },
