@@ -8,6 +8,7 @@ const EXCHANGES = [
   {
     rank: 1,
     name: 'Binance',
+    logo: 'https://bin.bnbstatic.com/static/images/common/favicon.ico',
     url: 'https://www.binance.com',
     volume24h: '$28.4B',
     coins: 350,
@@ -19,6 +20,7 @@ const EXCHANGES = [
   {
     rank: 2,
     name: 'Coinbase',
+    logo: 'https://www.coinbase.com/favicon.ico',
     url: 'https://www.coinbase.com',
     volume24h: '$4.2B',
     coins: 240,
@@ -30,6 +32,7 @@ const EXCHANGES = [
   {
     rank: 3,
     name: 'OKX',
+    logo: 'https://www.okx.com/favicon.ico',
     url: 'https://www.okx.com',
     volume24h: '$3.8B',
     coins: 300,
@@ -41,6 +44,7 @@ const EXCHANGES = [
   {
     rank: 4,
     name: 'Bybit',
+    logo: 'https://www.bybit.com/favicon.ico',
     url: 'https://www.bybit.com',
     volume24h: '$3.1B',
     coins: 200,
@@ -52,6 +56,7 @@ const EXCHANGES = [
   {
     rank: 5,
     name: 'Kraken',
+    logo: 'https://www.kraken.com/favicon.ico',
     url: 'https://www.kraken.com',
     volume24h: '$1.8B',
     coins: 180,
@@ -63,6 +68,7 @@ const EXCHANGES = [
   {
     rank: 6,
     name: 'KuCoin',
+    logo: 'https://www.kucoin.com/favicon.ico',
     url: 'https://www.kucoin.com',
     volume24h: '$1.2B',
     coins: 700,
@@ -74,6 +80,7 @@ const EXCHANGES = [
   {
     rank: 7,
     name: 'Gate.io',
+    logo: 'https://www.gate.io/favicon.ico',
     url: 'https://www.gate.io',
     volume24h: '$980M',
     coins: 1400,
@@ -85,6 +92,7 @@ const EXCHANGES = [
   {
     rank: 8,
     name: 'Uniswap',
+    logo: 'https://app.uniswap.org/favicon.ico',
     url: 'https://app.uniswap.org',
     volume24h: '$1.5B',
     coins: 5000,
@@ -96,6 +104,7 @@ const EXCHANGES = [
   {
     rank: 9,
     name: 'dYdX',
+    logo: 'https://dydx.exchange/favicon.ico',
     url: 'https://dydx.exchange',
     volume24h: '$420M',
     coins: 35,
@@ -107,6 +116,7 @@ const EXCHANGES = [
   {
     rank: 10,
     name: 'Bitget',
+    logo: 'https://www.bitget.com/favicon.ico',
     url: 'https://www.bitget.com',
     volume24h: '$2.1B',
     coins: 250,
@@ -155,8 +165,20 @@ export default function TopExchanges() {
                 >
                   <td style={{ padding: '14px 12px', color: '#888' }}>{ex.rank}</td>
                   <td style={{ padding: '14px 12px' }}>
-                    <div style={{ fontWeight: 600, color: '#fff' }}>{ex.name}</div>
-                    <div style={{ fontSize: 12, color: '#666', marginTop: 2 }}>{ex.description}</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <img
+                        src={ex.logo}
+                        alt={ex.name}
+                        width={28}
+                        height={28}
+                        style={{ borderRadius: 6, background: '#1a1a1a', objectFit: 'contain' }}
+                        onError={e => { e.target.style.display = 'none'; }}
+                      />
+                      <div>
+                        <div style={{ fontWeight: 600, color: '#fff' }}>{ex.name}</div>
+                        <div style={{ fontSize: 12, color: '#666', marginTop: 2 }}>{ex.description}</div>
+                      </div>
+                    </div>
                   </td>
                   <td style={{ padding: '14px 12px' }}>
                     <span style={{
