@@ -5,7 +5,7 @@ import useSWR from 'swr';
 import Navbar from '../../components/Navbar';
 import PriceTicker from '../../components/PriceTicker';
 import Footer from '../../components/Footer';
-import { timeAgo } from '../../lib/utils';
+import { timeAgo, readingTime } from '../../lib/utils';
 import styles from '../news/news.module.css';
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
@@ -62,6 +62,8 @@ export default function LearnList() {
                     <span>{a.author}</span>
                     <span>·</span>
                     <span>{timeAgo(a.created_at)}</span>
+                    <span>·</span>
+                    <span>{readingTime(a.body)}</span>
                   </div>
                 </div>
               </Link>

@@ -7,7 +7,7 @@ import Footer from '../../components/Footer';
 import InlinePrice from '../../components/InlinePrice';
 import ShareButtons from '../../components/ShareButtons';
 import { supabase } from '../../lib/supabase';
-import { timeAgo } from '../../lib/utils';
+import { timeAgo, readingTime } from '../../lib/utils';
 import styles from './article.module.css';
 
 export default function Article({ article, related }) {
@@ -86,6 +86,8 @@ export default function Article({ article, related }) {
             <span>{article.author}</span>
             <span className={styles.dot}>·</span>
             <span>{timeAgo(article.created_at)}</span>
+            <span className={styles.dot}>·</span>
+            <span>{readingTime(article.body)}</span>
           </div>
 
           {article.image_url && (
