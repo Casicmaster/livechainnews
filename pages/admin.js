@@ -4,7 +4,7 @@ import styles from './admin.module.css';
 
 const EMPTY = {
   id: null, title: '', slug: '', excerpt: '', body: '',
-  image_url: '', author: 'LiveChainNews', category: 'News',
+  image_url: '', image_alt: '', author: 'LiveChainNews', category: 'News',
   published: true, featured: false, tags: [],
 };
 
@@ -229,6 +229,10 @@ export default function Admin() {
             <input className={styles.input} value={form.image_url}
               onChange={(e) => setForm({ ...form, image_url: e.target.value })}
               placeholder="https://..." />
+              <label className={styles.label}>Image alt text (SEO — describe the image with keywords)</label>
+            <input className={styles.input} value={form.image_alt || ''}
+              onChange={(e) => setForm({ ...form, image_alt: e.target.value })}
+              placeholder="bitcoin price chart 2026 green candles" />
             <label style={{ display: 'inline-block', marginTop: 8, padding: '8px 14px', background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 6, fontSize: 13, cursor: 'pointer', color: 'var(--text-secondary)' }}>
               📤 Upload image from computer
               <input type="file" accept="image/*" onChange={uploadImage} style={{ display: 'none' }} />

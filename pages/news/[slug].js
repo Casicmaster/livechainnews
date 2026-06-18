@@ -112,7 +112,7 @@ export default function Article({ article, related }) {
 
           {article.image_url && (
             <div className={styles.hero}>
-              <img src={article.image_url} alt={article.title} />
+              <img src={article.image_url} alt={article.image_alt || article.title} />
             </div>
           )}
 
