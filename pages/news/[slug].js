@@ -110,6 +110,23 @@ export default function Article({ article, related }) {
             })}
           </div>
 
+{article.tags && article.tags.length > 0 && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, margin: '24px 0' }}>
+              {article.tags.map((tag) => (
+                <a key={tag} href={`/tag/${tag}`} style={{
+                  padding: '4px 12px',
+                  background: 'rgba(0,230,118,0.08)',
+                  border: '1px solid rgba(0,230,118,0.2)',
+                  borderRadius: 20,
+                  fontSize: 12,
+                  color: '#00e676',
+                  textDecoration: 'none',
+                  fontFamily: 'var(--font-mono)',
+                  transition: 'background 0.2s',
+                }}>#{tag}</a>
+              ))}
+            </div>
+          )}
           <ShareButtons title={article.title} slug={article.slug} />
         </article>
 

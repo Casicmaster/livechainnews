@@ -53,6 +53,21 @@ export default function NewsList() {
                   <span className={styles.cardCat}>{a.category}</span>
                   <h2 className={styles.cardTitle}>{a.title}</h2>
                   {a.excerpt && <p className={styles.cardExcerpt}>{a.excerpt}</p>}
+                  {a.tags && a.tags.length > 0 && (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
+                      {a.tags.slice(0, 3).map((tag) => (
+                        <span key={tag} style={{
+                          padding: '2px 8px',
+                          background: 'rgba(0,230,118,0.08)',
+                          border: '1px solid rgba(0,230,118,0.15)',
+                          borderRadius: 20,
+                          fontSize: 11,
+                          color: '#00e676',
+                          fontFamily: 'var(--font-mono)',
+                        }}>#{tag}</span>
+                      ))}
+                    </div>
+                  )}
                   <div className={styles.cardMeta}>
                     <span>{a.author}</span>
                     <span>·</span>

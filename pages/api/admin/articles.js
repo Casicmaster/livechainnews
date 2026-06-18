@@ -49,7 +49,8 @@ export default async function handler(req, res) {
           author: b.author || 'LiveChainNews',
           category: b.category || 'News',
           published: !!b.published,
-          featured: !!b.featured,
+        featured: !!b.featured,
+          tags: Array.isArray(b.tags) ? b.tags : [],
         }])
         .select()
         .single();
@@ -72,6 +73,7 @@ export default async function handler(req, res) {
           category: b.category,
           published: !!b.published,
           featured: !!b.featured,
+          tags: Array.isArray(b.tags) ? b.tags : [],
         })
         .eq('id', b.id)
         .select()

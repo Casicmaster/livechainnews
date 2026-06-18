@@ -5,7 +5,7 @@ import styles from './admin.module.css';
 const EMPTY = {
   id: null, title: '', slug: '', excerpt: '', body: '',
   image_url: '', author: 'LiveChainNews', category: 'News',
-  published: true, featured: false,
+  published: true, featured: false, tags: [],
 };
 
 const CATEGORIES = ['News', 'Analysis', 'Bitcoin', 'Ethereum', 'DeFi', 'NFT', 'Regulation', 'Altcoin', 'Learn', 'Blog'];
@@ -252,6 +252,11 @@ export default function Admin() {
               </div>
             </div>
 
+<label className={styles.label}>Tags (separate with comma — ex: bitcoin, etf, regulation)</label>
+            <input className={styles.input}
+              value={Array.isArray(form.tags) ? form.tags.join(', ') : ''}
+              onChange={(e) => setForm({ ...form, tags: e.target.value.split(',').map(t => t.trim()).filter(Boolean) })}
+              placeholder="bitcoin, etf, regulation..." />
             <label className={styles.label}>Excerpt (short summary)</label>
             <textarea className={styles.textarea} rows={2} value={form.excerpt}
               onChange={(e) => setForm({ ...form, excerpt: e.target.value })}
