@@ -2,6 +2,9 @@ import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import PriceTicker from '../components/PriceTicker';
 import Footer from '../components/Footer';
+import LatestNews from '../components/LatestNews';
+import FearGreedWidget from '../components/FearGreedWidget';
+import TrendingWidget from '../components/TrendingWidget';
 import styles from './prices.module.css';
 
 const EXCHANGES = [
@@ -137,7 +140,12 @@ export default function TopExchanges() {
       </Head>
       <PriceTicker />
       <Navbar />
-      <main className="container" style={{ paddingTop: 32, paddingBottom: 60 }}>
+      <main style={{ paddingTop: 32, paddingBottom: 60, maxWidth: 1600, margin: '0 auto', padding: '32px 24px 60px' }}>
+        <div className="pricesLayout">
+        <aside className="pricesSidebarLeft">
+          <LatestNews limit={5} />
+        </aside>
+        <div className="pricesMain">
         <h1 style={{ fontSize: 28, fontWeight: 700, marginBottom: 8 }}>Top Crypto Exchanges</h1>
         <p style={{ color: '#888', marginBottom: 32, fontSize: 15 }}>
           Compare the best centralized and decentralized exchanges by volume, coins and reputation.
@@ -217,6 +225,12 @@ export default function TopExchanges() {
         <p style={{ color: '#555', fontSize: 12, marginTop: 24, textAlign: 'center' }}>
           Data updated manually. Volume figures are approximate 24h averages. Always do your own research before using any exchange.
         </p>
+        </div>
+        <aside className="pricesSidebarRight">
+          <TrendingWidget />
+          <div style={{ marginTop: 16 }}><FearGreedWidget /></div>
+        </aside>
+        </div>
       </main>
       <Footer />
     </>

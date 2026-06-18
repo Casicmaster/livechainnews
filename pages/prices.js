@@ -4,6 +4,9 @@ import useSWR from 'swr';
 import Navbar from '../components/Navbar';
 import PriceTicker from '../components/PriceTicker';
 import Footer from '../components/Footer';
+import LatestNews from '../components/LatestNews';
+import FearGreedWidget from '../components/FearGreedWidget';
+import TrendingWidget from '../components/TrendingWidget';
 import TokenLogo from '../components/TokenLogo';
 import { fmtPrice, fmtPct, fmtLargeNum } from '../lib/utils';
 import styles from './prices.module.css';
@@ -55,7 +58,12 @@ export default function Prices() {
       </Head>
       <PriceTicker />
       <Navbar />
-      <main className="container" style={{ paddingTop: 28, paddingBottom: 60 }}>
+      <main style={{ paddingTop: 28, paddingBottom: 60, maxWidth: 1600, margin: '0 auto', padding: '28px 24px 60px' }}>
+        <div className="pricesLayout">
+        <aside className="pricesSidebarLeft">
+          <LatestNews limit={5} />
+        </aside>
+        <div className="pricesMain">
         <div className={styles.header}>
           <div>
             <h1 className={styles.title}>Cryptocurrency Prices</h1>
@@ -120,6 +128,12 @@ export default function Prices() {
           )}
         </div>
         <p className={styles.disclaimer}>Data provided by CoinGecko. Prices update every minute. Not financial advice.</p>
+        </div>
+        <aside className="pricesSidebarRight">
+          <FearGreedWidget />
+          <div style={{ marginTop: 16 }}><TrendingWidget /></div>
+        </aside>
+        </div>
       </main>
       <Footer />
     </>
