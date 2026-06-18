@@ -51,6 +51,11 @@ export default function Navbar() {
             type="text"
             placeholder="Search news, tokens..."
             className={styles.searchInput}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && e.target.value.trim()) {
+                window.location.href = `/search?q=${encodeURIComponent(e.target.value.trim())}`;
+              }
+            }}
           />
         </div>
         <Link href="/advertise" className={styles.btnPromote}>
