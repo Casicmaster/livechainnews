@@ -8,8 +8,28 @@ import InlinePrice from '../../components/InlinePrice';
 import ShareButtons from '../../components/ShareButtons';
 import { supabase } from '../../lib/supabase';
 import { timeAgo, readingTime } from '../../lib/utils';
+import { INTERNAL_LINKS } from '../../lib/internalLinks';
 import styles from './article.module.css';
 
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function linkifyParagraph(text, currentSlug, usedKeywords) {
+  let html = escapeHtml(text);
+  for (const { keyword, url } of INTERNAL_LINKS) {
+    // Skip if already used in this article or if it links to the current article
+    if (usedKeywords.has(keyword)) continue;
+    if (url.endsWith(currentSlug)) continue;
+    // Match whole word, case-insensitive, first occurrence only
+    const regex = new RegExp(`\\b(${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})\\b`, 'i');
+    if (regex.test(html)) {
+      html = html.replace(regex, `<a href="${url}" style="color:#00e676;text-decoration:underline;">$1</a>`);
+      usedKeywords.add(keyword);
+    }
+  }
+  return html;
+}
 export default function Article({ article, related }) {
   useEffect(() => {
     if (article?.slug) {
@@ -99,15 +119,18 @@ export default function Article({ article, related }) {
           {article.excerpt && <p className={styles.excerpt}>{article.excerpt}</p>}
 
           <div className={styles.body}>
-            {(article.body || '').split('\n').map((para, i) => {
-              const trimmed = para.trim();
-              if (!trimmed) return <br key={i} />;
-              const priceMatch = trimmed.match(/^\[PRICE:([A-Za-z0-9]+)\]$/);
-              if (priceMatch) {
-                return <InlinePrice key={i} symbol={priceMatch[1]} />;
-              }
-              return <p key={i}>{para}</p>;
-            })}
+            {(() => {
+              const usedKeywords = new Set();
+              return (article.body || '').split('\n').map((para, i) => {
+                const trimmed = para.trim();
+                if (!trimmed) return <br key={i} />;
+                const priceMatch = trimmed.match(/^\[PRICE:([A-Za-z0-9]+)\]$/);
+                if (priceMatch) {
+                  return <InlinePrice key={i} symbol={priceMatch[1]} />;
+                }
+                return <p key={i} dangerouslySetInnerHTML={{ __html: linkifyParagraph(para, article.slug, usedKeywords) }} />;
+              });
+            })()}
           </div>
 
 {article.tags && article.tags.length > 0 && (
@@ -163,15 +186,35 @@ export async function getServerSideProps({ params }) {
 
     if (!article) return { props: { article: null, related: [] } };
 
-    const { data: related } = await supabase
+    // Fetch a pool of recent articles to rank by relevance
+    const { data: pool } = await supabase
       .from('articles')
-      .select('id, title, slug, category, created_at')
+      .select('id, title, slug, category, created_at, tags')
       .eq('published', true)
       .neq('id', article.id)
       .order('created_at', { ascending: false })
-      .limit(4);
+      .limit(30);
 
-    return { props: { article, related: related || [] } };
+    const articleTags = Array.isArray(article.tags) ? article.tags : [];
+
+    // Score each article: +3 per shared tag, +1 if same category
+    const scored = (pool || []).map((a) => {
+      const aTags = Array.isArray(a.tags) ? a.tags : [];
+      const sharedTags = aTags.filter((t) => articleTags.includes(t)).length;
+      let score = sharedTags * 3;
+      if (a.category === article.category) score += 1;
+      return { ...a, score };
+    });
+
+    // Sort by score (highest first), then by date
+    scored.sort((x, y) => {
+      if (y.score !== x.score) return y.score - x.score;
+      return new Date(y.created_at) - new Date(x.created_at);
+    });
+
+    const related = scored.slice(0, 4);
+
+    return { props: { article, related } };
   } catch (e) {
     return { props: { article: null, related: [] } };
   }
