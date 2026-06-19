@@ -6,6 +6,7 @@ import PriceTicker from '../../components/PriceTicker';
 import Footer from '../../components/Footer';
 import InlinePrice from '../../components/InlinePrice';
 import ShareButtons from '../../components/ShareButtons';
+import ReadingProgress from '../../components/ReadingProgress';
 import { supabase } from '../../lib/supabase';
 import { timeAgo, readingTime } from '../../lib/utils';
 import { INTERNAL_LINKS } from '../../lib/internalLinks';
@@ -92,6 +93,7 @@ export default function Article({ article, related }) {
         />
       </Head>
 
+      <ReadingProgress />
       <PriceTicker />
       <Navbar />
 
