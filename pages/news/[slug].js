@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 import Navbar from '../../components/Navbar';
 import PriceTicker from '../../components/PriceTicker';
 import Footer from '../../components/Footer';
@@ -114,7 +115,14 @@ export default function Article({ article, related }) {
 
           {article.image_url && (
             <div className={styles.hero}>
-              <img src={article.image_url} alt={article.image_alt || article.title} />
+              <Image
+                src={article.image_url}
+                alt={article.image_alt || article.title}
+                width={760}
+                height={420}
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+                priority
+              />
             </div>
           )}
 
