@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import useSWR from 'swr';
 import Navbar from '../components/Navbar';
 import PriceTicker from '../components/PriceTicker';
 import Footer from '../components/Footer';
@@ -130,7 +131,18 @@ const EXCHANGES = [
   },
 ];
 
+const fetcher = (url) => fetch(url).then((r) => r.json());
+
+function fmtVol(usd) {
+  if (!usd) return '—';
+  if (usd >= 1e9) return '$' + (usd / 1e9).toFixed(2) + 'B';
+  if (usd >= 1e6) return '$' + (usd / 1e6).toFixed(1) + 'M';
+  return '$' + usd.toLocaleString('en-US', { maximumFractionDigits: 0 });
+}
+
 export default function TopExchanges() {
+  const { data: exchanges } = useSWR('/api/exchanges', fetcher, { refreshInterval: 300000 });
+  const list = Array.isArray(exchanges) ? exchanges : [];
   return (
     <>
       <Head>
@@ -152,22 +164,23 @@ export default function TopExchanges() {
         </p>
 
         <div style={{ overflowX: 'auto' }}>
+          {list.length === 0 ? (
+            <p style={{ color: '#888', padding: '40px 0', textAlign: 'center' }}>Loading exchange data...</p>
+          ) : (
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
             <thead>
               <tr style={{ borderBottom: '1px solid #222', color: '#888', textAlign: 'left' }}>
                 <th style={{ padding: '10px 12px' }}>#</th>
                 <th style={{ padding: '10px 12px' }}>Exchange</th>
-                <th style={{ padding: '10px 12px' }}>Type</th>
+                <th style={{ padding: '10px 12px' }}>Trust Score</th>
                 <th style={{ padding: '10px 12px' }}>Volume 24h</th>
-                <th style={{ padding: '10px 12px' }}>Coins</th>
                 <th style={{ padding: '10px 12px' }}>Founded</th>
-                <th style={{ padding: '10px 12px' }}>Rating</th>
                 <th style={{ padding: '10px 12px' }}></th>
               </tr>
             </thead>
             <tbody>
-              {EXCHANGES.map((ex) => (
-                <tr key={ex.rank} style={{ borderBottom: '1px solid #1a1a1a' }}
+              {list.map((ex) => (
+                <tr key={ex.id} style={{ borderBottom: '1px solid #1a1a1a' }}
                   onMouseEnter={e => e.currentTarget.style.background = '#0a0a0a'}
                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                 >
@@ -182,28 +195,23 @@ export default function TopExchanges() {
                         style={{ borderRadius: 6, background: '#1a1a1a', objectFit: 'contain' }}
                         onError={e => { e.target.style.display = 'none'; }}
                       />
-                      <div>
-                        <div style={{ fontWeight: 600, color: '#fff' }}>{ex.name}</div>
-                        <div style={{ fontSize: 12, color: '#666', marginTop: 2 }}>{ex.description}</div>
-                      </div>
+                      <div style={{ fontWeight: 600, color: '#fff' }}>{ex.name}</div>
                     </div>
                   </td>
                   <td style={{ padding: '14px 12px' }}>
-                    <span style={{
-                      padding: '2px 8px',
-                      borderRadius: 4,
-                      fontSize: 11,
-                      fontWeight: 600,
-                      background: ex.type === 'DEX' ? 'rgba(0,230,118,0.1)' : 'rgba(255,255,255,0.05)',
-                      color: ex.type === 'DEX' ? '#00e676' : '#aaa',
-                    }}>{ex.type}</span>
+                    {ex.trustScore != null ? (
+                      <span style={{
+                        padding: '2px 10px',
+                        borderRadius: 4,
+                        fontSize: 12,
+                        fontWeight: 700,
+                        background: ex.trustScore >= 8 ? 'rgba(0,230,118,0.12)' : ex.trustScore >= 6 ? 'rgba(255,193,7,0.12)' : 'rgba(255,255,255,0.05)',
+                        color: ex.trustScore >= 8 ? '#00e676' : ex.trustScore >= 6 ? '#ffc107' : '#aaa',
+                      }}>{ex.trustScore}/10</span>
+                    ) : <span style={{ color: '#555' }}>—</span>}
                   </td>
-                  <td style={{ padding: '14px 12px', color: '#fff', fontWeight: 500 }}>{ex.volume24h}</td>
-                  <td style={{ padding: '14px 12px', color: '#aaa' }}>{ex.coins.toLocaleString()}</td>
-                  <td style={{ padding: '14px 12px', color: '#aaa' }}>{ex.year}</td>
-                  <td style={{ padding: '14px 12px' }}>
-                    <span style={{ color: '#00e676', fontWeight: 600 }}>★ {ex.rating}</span>
-                  </td>
+                  <td style={{ padding: '14px 12px', color: '#fff', fontWeight: 500 }}>{fmtVol(ex.volumeUsd)}</td>
+                  <td style={{ padding: '14px 12px', color: '#aaa' }}>{ex.year || '—'}</td>
                   <td style={{ padding: '14px 12px' }}>
                     <a href={ex.url} target="_blank" rel="noopener noreferrer" style={{
                       padding: '6px 14px',
@@ -220,10 +228,10 @@ export default function TopExchanges() {
               ))}
             </tbody>
           </table>
+          )}
         </div>
-
         <p style={{ color: '#555', fontSize: 12, marginTop: 24, textAlign: 'center' }}>
-          Data updated manually. Volume figures are approximate 24h averages. Always do your own research before using any exchange.
+          Data provided by CoinGecko, updated every 5 minutes. Trust Score reflects exchange liquidity and reliability. Always do your own research before using any exchange.
         </p>
         </div>
         <aside className="pricesSidebarRight">
