@@ -24,7 +24,7 @@ export default function LatestNews({ limit = 5 }) {
           <Link key={a.id} href={`/news/${a.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
             <div style={{ display: 'flex', gap: 10, paddingBottom: 14, borderBottom: i < list.length - 1 ? '1px solid #1a1a1a' : 'none' }}>
               {a.image_url && (
-                <img src={a.image_url} alt={a.image_alt || a.title} width={56} height={56}
+                <img src={a.image_url} alt={a.image_alt || a.title} width={56} height={56} loading="lazy"
                   style={{ borderRadius: 8, objectFit: 'cover', flexShrink: 0, background: '#1a1a1a' }} />
               )}
               <div>

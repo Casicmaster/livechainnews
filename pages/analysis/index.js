@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 import useSWR from 'swr';
 import Navbar from '../../components/Navbar';
 import PriceTicker from '../../components/PriceTicker';
@@ -33,9 +34,9 @@ export default function Analysis() {
           <div className={styles.grid}>
             {list.map((a) => (
               <Link key={a.id} href={`/news/${a.slug}`} className={styles.card}>
-                <div className={styles.cardImg}>
+                <div className={styles.cardImg} style={{ position: 'relative' }}>
                   {a.image_url
-                    ? <img src={a.image_url} alt={a.title} />
+                    ? <Image src={a.image_url} alt={a.image_alt || a.title} fill sizes="(max-width: 768px) 100vw, 400px" style={{ objectFit: 'cover' }} />
                     : <div className={styles.cardImgPlaceholder}>📊</div>}
                 </div>
                 <div className={styles.cardBody}>

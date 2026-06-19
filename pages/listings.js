@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 import useSWR from 'swr';
 import Navbar from '../components/Navbar';
 import PriceTicker from '../components/PriceTicker';
@@ -98,7 +99,7 @@ function ProjectCard({ project }) {
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
           {project.logo_url ? (
-            <img src={project.logo_url} alt={project.name} width={44} height={44} style={{ borderRadius: 10, objectFit: 'contain', background: '#1a1a1a' }} />
+            <Image src={project.logo_url} alt={project.name} width={44} height={44} unoptimized style={{ borderRadius: 10, objectFit: 'contain', background: '#1a1a1a' }} />
           ) : (
             <div style={{ width: 44, height: 44, borderRadius: 10, background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🪙</div>
           )}
