@@ -18,8 +18,8 @@
   --red: #ff4757;
   --red-dim: rgba(255,71,87,0.12);
   --green-dim: rgba(0,230,118,0.08);
-  --font-display: 'Space Grotesk', sans-serif;
-  --font-mono: 'Space Mono', monospace;
+  --font-display: var(--font-grotesk), 'Space Grotesk', sans-serif;
+  --font-mono: var(--font-mono-next), 'Space Mono', monospace;
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
