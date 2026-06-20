@@ -249,7 +249,10 @@
   .sidebar { display: flex; }
 }
 @media (max-width: 760px) {
-  .mainGrid { grid-template-columns: 1fr; }
+  .mainGrid { grid-template-columns: 1fr; display: flex; flex-direction: column; }
+  .newsSection { order: 1; }
+  .analysisSidebar { display: block; order: 2; }
+  .sidebar { order: 3; }
   .heroInner { flex-direction: column; }
   .moversCard { width: 100%; }
 }
