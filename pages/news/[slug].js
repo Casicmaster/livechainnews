@@ -229,7 +229,7 @@ export async function getServerSideProps({ params }) {
     // Fetch a pool of recent articles to rank by relevance
     const { data: pool } = await supabase
       .from('articles')
-      .select('id, title, slug, category, created_at, tags')
+      .select('id, title, slug, category, created_at, tags, image_url, image_alt')
       .eq('published', true)
       .neq('id', article.id)
       .order('created_at', { ascending: false })
