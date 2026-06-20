@@ -4,7 +4,7 @@
 import { supabase } from '../../lib/supabase';
 
 export default async function handler(req, res) {
-  const { slug, filter = 'all', limit = 30, tag } = req.query;
+  const { slug, filter = 'all', limit = 30, tag, author } = req.query;
 
   try {
     // Single article by slug
@@ -32,6 +32,9 @@ export default async function handler(req, res) {
     }
     if (tag) {
       query = query.contains('tags', [tag]);
+    }
+    if (author) {
+      query = query.ilike('author', author);
     }
 
     const { data, error } = await query;

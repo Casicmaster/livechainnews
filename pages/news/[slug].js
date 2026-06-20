@@ -126,7 +126,7 @@ export default function Article({ article, related }) {
           <h1 className={styles.title}>{article.title}</h1>
 
           <div className={styles.meta}>
-            <span>{article.author}</span>
+            <Link href={`/author/${encodeURIComponent(article.author)}`} style={{ color: '#00e676', textDecoration: 'none' }}>{article.author}</Link>
             <span className={styles.dot}>·</span>
             <span>{timeAgo(article.created_at)}</span>
             <span className={styles.dot}>·</span>
@@ -180,6 +180,16 @@ export default function Article({ article, related }) {
               ))}
             </div>
           )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '20px', background: '#0d0d0d', border: '1px solid #1f1f1f', borderRadius: 12, margin: '32px 0' }}>
+            <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'linear-gradient(135deg, #00e676, #00b0ff)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 700, color: '#000', flexShrink: 0 }}>
+              {(article.author || 'L').charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <div style={{ fontSize: 12, color: '#888', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 2 }}>Written by</div>
+              <Link href={`/author/${encodeURIComponent(article.author)}`} style={{ fontSize: 16, fontWeight: 700, color: '#fff', textDecoration: 'none' }}>{article.author}</Link>
+            </div>
+            <Link href={`/author/${encodeURIComponent(article.author)}`} style={{ marginLeft: 'auto', fontSize: 13, color: '#00e676', textDecoration: 'none', fontWeight: 600 }}>View all articles →</Link>
+          </div>
           <ShareButtons title={article.title} slug={article.slug} />
         </article>
 
