@@ -222,13 +222,3 @@ a:hover .analysisArrow {
   opacity: 1;
   transform: translateX(3px);
 }
-/* Reduce layout shift - reserve space for images */
-img {
-  height: auto;
-}
-.featured img,
-[class*="cardImg"] img,
-[class*="featuredImg"] img {
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-}
