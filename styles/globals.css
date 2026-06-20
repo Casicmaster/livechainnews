@@ -190,11 +190,12 @@ img { max-width: 100%; display: block; }
 .pricesMain {
   min-width: 0;
 }
-@media (max-width: 1100px) {
+@media (max-width: 1400px) {
   .pricesLayout {
-    grid-template-columns: minmax(0, 1fr) 280px;
+    grid-template-columns: 1fr;
   }
-  .pricesSidebarLeft {
+  .pricesSidebarLeft,
+  .pricesSidebarRight {
     display: none;
   }
 }
@@ -205,4 +206,19 @@ img { max-width: 100%; display: block; }
   .pricesSidebarRight {
     display: none;
   }
+}
+/* Pulsing dot for Analysis widget */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+/* Analysis widget arrow hover */
+.analysisArrow {
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  display: inline-block;
+}
+a:hover .analysisArrow {
+  opacity: 1;
+  transform: translateX(3px);
 }

@@ -9,6 +9,7 @@ import FearGreedWidget from '../components/FearGreedWidget';
 import { NewsFeatured, NewsCard } from '../components/NewsCard';
 import TokenLogo from '../components/TokenLogo';
 import MostRead from '../components/MostRead';
+import AnalysisWidget from '../components/AnalysisWidget';
 import Newsletter from '../components/Newsletter';
 import MarketOverview from '../components/MarketOverview';
 import Footer from '../components/Footer';
@@ -78,8 +79,9 @@ export default function Home({ initialArticles = [] }) {
       <Navbar />
 
       <main>
-        <div className="container" style={{ paddingTop: 28 }}>
+        <div style={{ paddingTop: 28, maxWidth: 1600, margin: '0 auto', padding: '28px 24px 0' }}>
           {/* â”€â”€ CATEGORY FILTER â”€â”€ */}
+          {false && (
           <div className={styles.categories}>
             {CATEGORIES.map((c) => (
               <button
@@ -91,9 +93,15 @@ export default function Home({ initialArticles = [] }) {
               </button>
             ))}
           </div>
+          )}
 
           {/* â”€â”€ MAIN GRID â”€â”€ */}
           <div className={styles.mainGrid}>
+            {/* ANALYSIS SIDEBAR (left) */}
+            <aside className={styles.analysisSidebar}>
+              <AnalysisWidget limit={5} />
+            </aside>
+
             {/* NEWS */}
             <div className={styles.newsSection}>
               <div className="section-header">
@@ -160,6 +168,7 @@ export async function getStaticProps() {
     .from('articles')
     .select('*')
     .eq('published', true)
+    .ilike('category', 'News')
     .order('created_at', { ascending: false })
     .limit(30);
 
