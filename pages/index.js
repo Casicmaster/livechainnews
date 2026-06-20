@@ -107,7 +107,7 @@ export default function Home({ initialArticles = [] }) {
               <div className="section-header">
                 <div className="section-title">
                   <div className="section-title-dot" />
-                  Latest News
+                  Latest Crypto News
                   </div>
                 <a href="/news" className="section-link">View all →</a>
               </div>
