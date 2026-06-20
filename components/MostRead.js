@@ -13,7 +13,7 @@ export default function MostRead() {
   return (
     <div className="widget">
       <div className="widget-header">
-        <div className="widget-title"><span>🏆</span> Most Read</div>
+        <div className="widget-title"><span>🔥</span> Most Read</div>
       </div>
       <div className={styles.list}>
         {!articles
