@@ -10,6 +10,7 @@ import { NewsFeatured, NewsCard } from '../components/NewsCard';
 import TokenLogo from '../components/TokenLogo';
 import MostRead from '../components/MostRead';
 import AnalysisWidget from '../components/AnalysisWidget';
+import GainersLosers from '../components/GainersLosers';
 import Newsletter from '../components/Newsletter';
 import MarketOverview from '../components/MarketOverview';
 import Footer from '../components/Footer';
@@ -100,6 +101,7 @@ export default function Home({ initialArticles = [] }) {
             {/* ANALYSIS SIDEBAR (left) */}
             <aside className={styles.analysisSidebar}>
               <AnalysisWidget limit={5} />
+              <div style={{ marginTop: 18 }}><GainersLosers /></div>
             </aside>
 
             {/* NEWS */}
