@@ -133,9 +133,19 @@ export default function Article({ article, related }) {
           <nav style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#888', marginBottom: 16, fontFamily: 'var(--font-mono)', flexWrap: 'wrap' }}>
             <Link href="/" style={{ color: '#888', textDecoration: 'none' }}>Home</Link>
             <span style={{ opacity: 0.5 }}>›</span>
-            <Link href="/news" style={{ color: '#888', textDecoration: 'none' }}>News</Link>
-            <span style={{ opacity: 0.5 }}>›</span>
-            <span style={{ color: '#00e676' }}>{article.category}</span>
+            {(() => {
+              const cat = (article.category || '').toLowerCase();
+              const sectionMap = { learn: '/learn', blog: '/blog', analysis: '/analysis' };
+              const section = sectionMap[cat] || '/news';
+              const label = sectionMap[cat] ? article.category : 'News';
+              return (
+                <>
+                  <Link href={section} style={{ color: '#888', textDecoration: 'none' }}>{label}</Link>
+                  <span style={{ opacity: 0.5 }}>›</span>
+                  <span style={{ color: '#00e676' }}>{article.category}</span>
+                </>
+              );
+            })()}
           </nav>
 
           <span className={styles.cat}>{article.category}</span>
