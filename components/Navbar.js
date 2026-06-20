@@ -58,9 +58,11 @@ export default function Navbar() {
             }}
           />
         </div>
+        {false && (
         <Link href="/advertise" className={styles.btnPromote}>
           🚀 List Project
         </Link>
+        )}
 
         {/* Hamburger (mobile) */}
         <button
@@ -82,7 +84,6 @@ export default function Navbar() {
             { href: '/trending',  label: 'Top Exchanges' },
             { href: '/learn',    label: 'Learn' },
             { href: '/blog',     label: 'Blog' },
-            { href: '/advertise',label: '🚀 List Project' },
           ].map((l) => (
             <Link
               key={l.href}

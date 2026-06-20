@@ -45,7 +45,7 @@ export default function Footer() {
           <div className={styles.col}>
             <h4>Company</h4>
             <ul>
-              {[['About','/about'],['Contact','/contact'],['Advertise','/advertise'],['Privacy Policy','/privacy'],['Terms & Conditions','/terms'],['Disclaimer','/disclaimer']].map(([l,h]) => (
+              {[['About','/about'],['Contact','/contact'],['Privacy Policy','/privacy'],['Terms & Conditions','/terms'],['Disclaimer','/disclaimer']].map(([l,h]) => (
                 <li key={l}><Link href={h}>{l}</Link></li>
               ))}
             </ul>
