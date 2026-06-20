@@ -92,6 +92,20 @@ export default function Article({ article, related }) {
             }),
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://livechainnews.com' },
+                { '@type': 'ListItem', position: 2, name: 'News', item: 'https://livechainnews.com/news' },
+                { '@type': 'ListItem', position: 3, name: article.title, item: url },
+              ],
+            }),
+          }}
+        />
       </Head>
 
       <ReadingProgress />
@@ -100,7 +114,13 @@ export default function Article({ article, related }) {
 
       <main className={styles.wrap}>
         <article className={styles.article}>
-          <Link href="/news" className={styles.backLink}>← All news</Link>
+          <nav style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#888', marginBottom: 16, fontFamily: 'var(--font-mono)', flexWrap: 'wrap' }}>
+            <Link href="/" style={{ color: '#888', textDecoration: 'none' }}>Home</Link>
+            <span style={{ opacity: 0.5 }}>›</span>
+            <Link href="/news" style={{ color: '#888', textDecoration: 'none' }}>News</Link>
+            <span style={{ opacity: 0.5 }}>›</span>
+            <span style={{ color: '#00e676' }}>{article.category}</span>
+          </nav>
 
           <span className={styles.cat}>{article.category}</span>
           <h1 className={styles.title}>{article.title}</h1>
