@@ -141,6 +141,7 @@ export default function Home({ initialArticles = [] }) {
               <Newsletter />
 
               {/* Promote */}
+              {false && (
               <div className={styles.promoteBanner}>
                 <h3>Launch your <span>project</span> here</h3>
                 <p>Reach thousands of crypto investors and traders on LiveChainNews.</p>
@@ -151,6 +152,7 @@ export default function Home({ initialArticles = [] }) {
                   <div className={styles.promoteStat}><strong>24h</strong>turnaround</div>
                 </div>
               </div>
+              )}
             </aside>
           </div>
         </div>
