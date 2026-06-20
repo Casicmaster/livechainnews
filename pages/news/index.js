@@ -21,8 +21,8 @@ export default function NewsList() {
   return (
     <>
       <Head>
-        <title>Crypto News — LiveChainNews</title>
-        <meta name="description" content="Latest crypto news and analysis from LiveChainNews." />
+        <title>Latest Crypto News — Bitcoin, Ethereum, DeFi & Altcoins | LiveChainNews</title>
+        <meta name="description" content="Breaking cryptocurrency news and analysis. Stay updated on Bitcoin, Ethereum, DeFi, NFTs, regulation and the latest developments in the crypto market." />
       </Head>
       <PriceTicker />
       <Navbar />

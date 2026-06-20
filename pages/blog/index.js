@@ -24,7 +24,7 @@ export default function BlogList() {
   return (
     <>
       <Head>
-        <title>Blog – LiveChainNews</title>
+        <title>Crypto Blog — Opinions, Insights & Market Commentary | LiveChainNews</title>
         <meta name="description" content="Opinions, insights and editorial content on crypto markets, blockchain technology and the future of finance." />
         <link rel="canonical" href="https://livechainnews.com/blog" />
       </Head>

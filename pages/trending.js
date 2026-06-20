@@ -146,7 +146,7 @@ export default function TopExchanges() {
   return (
     <>
       <Head>
-        <title>Top Crypto Exchanges 2025 – LiveChainNews</title>
+        <title>Top Crypto Exchanges — Ranked by Volume & Trust Score | LiveChainNews</title>
         <meta name="description" content="Compare the best crypto exchanges by volume, coins listed, fees and security. Find the right exchange for you." />
         <link rel="canonical" href="https://livechainnews.com/trending" />
       </Head>
