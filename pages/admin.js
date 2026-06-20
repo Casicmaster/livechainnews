@@ -5,7 +5,7 @@ import styles from './admin.module.css';
 const EMPTY = {
   id: null, title: '', slug: '', excerpt: '', body: '',
   image_url: '', image_alt: '', author: 'LiveChainNews', category: 'News',
-  published: true, featured: false, tags: [],
+  published: true, featured: false, tags: [], faq: '',
 };
 
 const CATEGORIES = ['News', 'Analysis', 'Bitcoin', 'Ethereum', 'DeFi', 'NFT', 'Regulation', 'Altcoin', 'Learn', 'Blog'];
@@ -94,7 +94,10 @@ export default function Admin() {
   }
 
   function edit(a) {
-    setForm(a);
+    const faqText = Array.isArray(a.faq)
+      ? a.faq.map((f) => `${f.question} | ${f.answer}`).join('\n')
+      : (a.faq || '');
+    setForm({ ...a, faq: faqText });
     setMsg('');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -266,10 +269,10 @@ export default function Admin() {
               onChange={(e) => setForm({ ...form, excerpt: e.target.value })}
               placeholder="One or two sentences shown in the article list..." />
 
-            <label className={styles.label}>Body (full article — supports line breaks)</label>
-            <textarea className={styles.textarea} rows={14} value={form.body}
-              onChange={(e) => setForm({ ...form, body: e.target.value })}
-              placeholder="Write your article here..." />
+            <label className={styles.label}>FAQ (optional — one per line, format: Question? | Answer)</label>
+            <textarea className={styles.textarea} rows={5} value={form.faq || ''}
+              onChange={(e) => setForm({ ...form, faq: e.target.value })}
+              placeholder={"What is Bitcoin? | Bitcoin is the first cryptocurrency...\nIs Bitcoin safe? | Bitcoin's network is secure, but..."} />
 
             <div className={styles.checks}>
               <label className={styles.check}>

@@ -4,6 +4,20 @@
 
 import { getAdminClient } from '../../../lib/supabase';
 
+function parseFaq(raw) {
+  if (Array.isArray(raw)) return raw;
+  if (!raw || typeof raw !== 'string') return [];
+  return raw
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.includes('|'))
+    .map((line) => {
+      const [q, ...a] = line.split('|');
+      return { question: q.trim(), answer: a.join('|').trim() };
+    })
+    .filter((item) => item.question && item.answer);
+}
+
 function slugify(str) {
   return str
     .toLowerCase()
@@ -52,6 +66,7 @@ export default async function handler(req, res) {
           published: !!b.published,
         featured: !!b.featured,
           tags: Array.isArray(b.tags) ? b.tags : [],
+          faq: parseFaq(b.faq),
         }])
         .select()
         .single();
@@ -76,6 +91,7 @@ export default async function handler(req, res) {
           published: !!b.published,
           featured: !!b.featured,
           tags: Array.isArray(b.tags) ? b.tags : [],
+          faq: parseFaq(b.faq),
         })
         .eq('id', b.id)
         .select()

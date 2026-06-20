@@ -74,6 +74,42 @@ export default function Home({ initialArticles = [] }) {
         <meta name="twitter:title" content="LiveChainNews" />
         <meta name="twitter:description" content="Real-time crypto news, trending tokens, and market analysis." />
         <meta name="twitter:image" content="https://livechainnews.com/og-image.png" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'LiveChainNews',
+              url: 'https://livechainnews.com',
+              logo: 'https://livechainnews.com/favicon-32x32.png',
+              description: 'Real-time crypto news, trending tokens, and market analysis.',
+              sameAs: [
+                'https://x.com/livechainnews',
+                'https://t.me/livechainnews',
+              ],
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: 'LiveChainNews',
+              url: 'https://livechainnews.com',
+              potentialAction: {
+                '@type': 'SearchAction',
+                target: {
+                  '@type': 'EntryPoint',
+                  urlTemplate: 'https://livechainnews.com/search?q={search_term_string}',
+                },
+                'query-input': 'required name=search_term_string',
+              },
+            }),
+          }}
+        />
       </Head>
 
       <PriceTicker />

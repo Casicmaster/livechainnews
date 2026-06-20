@@ -106,6 +106,22 @@ export default function Article({ article, related }) {
             }),
           }}
         />
+        {article.faq && article.faq.length > 0 && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'FAQPage',
+                mainEntity: article.faq.map((item) => ({
+                  '@type': 'Question',
+                  name: item.question,
+                  acceptedAnswer: { '@type': 'Answer', text: item.answer },
+                })),
+              }),
+            }}
+          />
+        )}
       </Head>
 
       <ReadingProgress />
@@ -190,7 +206,17 @@ export default function Article({ article, related }) {
             </div>
             <Link href={`/author/${encodeURIComponent(article.author)}`} style={{ marginLeft: 'auto', fontSize: 13, color: '#00e676', textDecoration: 'none', fontWeight: 600 }}>View all articles →</Link>
           </div>
-          <ShareButtons title={article.title} slug={article.slug} />
+          {article.faq && article.faq.length > 0 && (
+            <div style={{ margin: '40px 0' }}>
+              <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 20 }}>Frequently Asked Questions</h2>
+              {article.faq.map((item, i) => (
+                <div key={i} style={{ marginBottom: 16, padding: '16px 20px', background: '#0d0d0d', border: '1px solid #1f1f1f', borderRadius: 12 }}>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: '#fff', marginBottom: 8 }}>{item.question}</div>
+                  <div style={{ fontSize: 15, color: '#aaa', lineHeight: 1.7 }}>{item.answer}</div>
+                </div>
+              ))}
+            </div>
+          )}
         </article>
 
         {related && related.length > 0 && (
