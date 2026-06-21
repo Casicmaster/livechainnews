@@ -269,6 +269,11 @@ export default function Admin() {
               onChange={(e) => setForm({ ...form, excerpt: e.target.value })}
               placeholder="One or two sentences shown in the article list..." />
 
+
+            <label className={styles.label}>Body (full article � supports line breaks)</label>
+            <textarea className={styles.textarea} rows={14} value={form.body}
+              onChange={(e) => setForm({ ...form, body: e.target.value })}
+              placeholder="Write your article here..." />
             <label className={styles.label}>FAQ (optional — one per line, format: Question? | Answer)</label>
             <textarea className={styles.textarea} rows={5} value={form.faq || ''}
               onChange={(e) => setForm({ ...form, faq: e.target.value })}
