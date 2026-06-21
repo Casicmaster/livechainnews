@@ -32,7 +32,13 @@ export default async function handler(req, res) {
     const buffer = Buffer.from(match[2], 'base64');
 
     const ext = (fileName.split('.').pop() || 'jpg').toLowerCase();
-    const safeName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    const baseName = fileName
+      .replace(/\.[^.]+$/, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 60) || 'image';
+    const safeName = `${baseName}-${Math.random().toString(36).slice(2, 6)}.${ext}`;
 
     const supabase = getAdminClient();
     const { error } = await supabase.storage
